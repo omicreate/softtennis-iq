@@ -1,0 +1,150 @@
+// 試合ノートの設定（旧 soft-tennis-note/app-config.js から移植）
+export const SOFT_TENNIS_CONFIG = {
+  APP_VERSION: "v1.0.5",
+  STORAGE_KEY: "soft-tennis-logger-state-v1",
+  ARCHIVE_STORAGE_KEY: "soft-tennis-logger-archive-v1",
+  MAX_ARCHIVED_MATCHES: 30,
+  SCORING_OUTCOMES: ["ストローク得点", "ボレー得点", "スマッシュ得点", "サービス得点", "レシーブ得点", "ロビング得点"],
+  ERROR_OUTCOMES: ["ダブルフォールト", "レシーブミス", "ストロークミス", "ボレーミス", "スマッシュミス", "その他"],
+  ANALYSIS_COMMENT_RULES: {
+    attackRateHigh: 60,
+    opponentErrorRateHigh: 60,
+    firstServeLow: 60,
+    openingRateLow: 50,
+    openingRateHigh: 60,
+    earlyLostAlert: 3,
+    longLostStreakAlert: 3,
+    clutchMissAlert: 1,
+    rallyRecordedMin: 3,
+    shortRallyRateHigh: 65,
+    longRallyRateHigh: 60,
+    quickLimit: 3,
+    priorityLimit: 4,
+    summaryLimit: 5,
+    shareSummaryComments: 3,
+    detailSummaryComments: 5,
+    shareNextItems: 2,
+    detailNextItems: 3
+  },
+  ANALYSIS_COMMENT_MESSAGES: {
+    scoreTypeBalancedLabel: "得点の中身: バランス型",
+    scoreTypeBalancedText: "得点パターンと相手ミス得点が混ざった試合です。",
+    scoreTypePendingLabel: "得点の中身: 未判定",
+    scoreTypePendingText: "{ownSide}の得点がまだありません。",
+    scoreTypeAttackLabel: "得点の中身: 自分たちで取った型",
+    scoreTypeAttackText: "{ownSide}の得点パターンが多い試合です。再現したい形を確認しましょう。",
+    scoreTypeOpponentErrorLabel: "得点の中身: 相手ミス型",
+    scoreTypeOpponentErrorText: "相手のミスによる得点が多い試合です。どの配球でミスを誘えたか確認しましょう。",
+    quickNoRecord: "まだ記録がありません。まずは1ポイント記録してください。",
+    quickDoubleFault: "第2サービスは安全優先。ダブルフォールトを止める。",
+    quickReceiveMiss: "レシーブはまず返す。強打より深く入れる。",
+    quickEarlyLost: "最初の2本はまず返す。入りで相手に与えない。",
+    quickFirstServeLow: "第1サービスは確率重視。入れてから展開する。",
+    quickOpponentErrorMore: "相手ミス得点が多め。自チームで取る形を1つ作る。",
+    quickTopScore: "得点が多い形は「{topScore}」。再現できた場面を確認する。",
+    quickOpeningLow: "ゲームの1ポイント目は、サービス/レシーブの入りを丁寧にする。",
+    quickStopStreak: "連続で取られた流れは早めに切る。まず返して相手にもう一度打たせる。",
+    quickClutchMiss: "ゲームポイントでは決め急がず、先に安全な形を作る。",
+    quickShortRallyHigh: "3本以内が多め。サービス・レシーブ直後を丁寧に入る。",
+    quickLongRallyHigh: "4本以上で続けられている。粘った後の決め方を確認する。",
+    quickBalanced: "大きな偏りは少なめ。今のリズムを崩さず、先にミスしない。",
+    summaryNoRecord: "まだ記録が少ないため、数ポイント記録して傾向を見る",
+    summaryPointDiffPositive: "合計ポイントは{pointDiff}。ゲーム結果だけでなく内容でも押せている",
+    summaryPointDiffNegative: "合計ポイントは{pointDiff}。相手に取られた形と、こちらが与えた点を分けて見たい",
+    summaryPointDiffEven: "合計ポイントは{pointDiff}。勝敗に関係なく内容は接戦",
+    summaryOwnErrorHigh: "ミスで与えた点{ownLostByOwnError}本が、自分たちで取った点{ownScoredByPattern}本を上回る。まず与えた点を減らす",
+    summaryAttackHigh: "得点の{attackRate}%が自チームの得点パターン。良い形を次の試合でも再現したい",
+    summaryOpponentErrorHigh: "得点の{opponentErrorRate}%が相手ミス。相手が崩れた配球や狙い所を確認したい",
+    summaryServeReceive: "DF{ownDoubleFaults}本、レシーブミス{ownReceiveMisses}本。サービス・レシーブで与えた点を先に確認",
+    summaryEarlyLost: "最初の2本で取られた/与えた点が{ownEarlyLost}本。1本目、2本目はまず返す",
+    summaryOpeningLow: "ゲームの1ポイント目は{openingPointOwn}/{openingPointTotal}本。序盤の入りで相手に流れを渡している",
+    summaryOpeningHigh: "ゲームの1ポイント目は{openingPointOwn}/{openingPointTotal}本。序盤の入りは良い傾向",
+    summaryFirstHalfBehind: "前半で取れたゲームは{firstHalfGamesText}。追う展開になりやすく、序盤に与えた点を減らしたい",
+    summaryFirstHalfAhead: "前半で取れたゲームは{firstHalfGamesText}。序盤で流れを作れている",
+    summaryLostStreak: "最長連続失点は{longestOppStreakText}。連続で取られた流れを切るプレーを決めたい",
+    summaryClutchMiss: "ゲームポイント逸失{ownGamePointMissed}回、マッチポイント逸失{ownMatchPointMissed}回。勝負所は安全に形を作る",
+    summaryShortRallyHigh: "3本以内が{rallyShort}/{rallyRecorded}本。短いポイントで試合が動いているため、サービス・レシーブ直後を確認",
+    summaryLongRallyHigh: "4本以上が{rallyLong}/{rallyRecorded}本。続いた後に取れた形、取られた形を確認",
+    summaryTopScore: "主な得点は「{topScore}」{topScoreCount}本。次の試合でも同じ形を確認"
+  },
+  TRIAL_GUIDES: {
+    record: {
+      summary: "使い方（記録）",
+      lead: "記録ページは、ポイントが終わった直後に短く残す画面です。親、選手、コーチの誰が入力しても同じ形で残せます。",
+      items: [
+        "まずサービス、誰のプレー、何が起きたか、得点側を残す",
+        "迷った項目は不明のままでよく、あとで履歴から補足できる",
+        "部内戦でも相手側を同じ粒度で記録すると、全員の振り返りに使える"
+      ]
+    },
+    analysis: {
+      summary: "使い方（分析）",
+      lead: "分析ページは、記録した数字から次に活かす材料を整理する画面です。記録者が選手へ見せながら、味方と相手を同じ基準で確認できます。",
+      items: [
+        "上から、試合から分かったこと、次に活かすポイント、選手別の記録を確認する",
+        "選手別は + / -、プレー内容、サーブ/レシーブを同じ粒度で見る",
+        "残したい内容は「この振り返りを保存」で時刻とスコア付きで残せる"
+      ]
+    },
+    history: {
+      summary: "使い方（履歴）",
+      lead: "履歴ページは、1点ごとの内容を確認し、必要なところだけ後から補足する画面です。",
+      items: [
+        "ゲームごとに得点側、内容、プレイヤー、スコア推移を確認する",
+        "不足している内容は各ポイントの「詳細を補足」から直せる",
+        "直前の入力を取り消す時は、記録ページの「前のポイントに戻す」を使う"
+      ]
+    }
+  },
+  defaultState: {
+    archiveId: "",
+    isPracticeMatch: false,
+    matchType: "doubles",
+    teams: { A: "自チーム", B: "相手ペア" },
+    players: {
+      AFront: "自前衛",
+      ARear: "自後衛",
+      BFront: "相手前衛",
+      BRear: "相手後衛"
+    },
+    gamesToWin: 4,
+    matchFormat: "7",
+    matchInfo: {
+      date: "",
+      timeOfDay: "未記録",
+      startTime: "",
+      endTime: "",
+      weather: "未記録",
+      temperature: "",
+      wind: "未記録",
+      windSide: "未記録",
+      surface: "未記録",
+      courtCondition: "未記録",
+      opponentFormation: "雁行陣",
+      event: "",
+      tournament: "",
+      venueName: "",
+      venue: ""
+    },
+    server: "A",
+    recordMode: "simple",
+    selectedCourse: "未記録",
+    selectedOutcome: "ストローク得点",
+    selectedResult: "不明",
+    selectedRallyLength: "long",
+    selectedServe: "第1サービスで開始",
+    selectedServerPlayer: "不明",
+    selectedReceiverPlayer: "不明",
+    serviceSelectionKey: "",
+    selectedHand: "不明",
+    selectedPlayer: "不明",
+    selectedShot: "不明",
+    selectedMemo: "",
+    analysisMemos: [],
+    points: [],
+    gamePoints: { A: 0, B: 0 },
+    games: { A: 0, B: 0 },
+    finished: false
+  }
+};
+

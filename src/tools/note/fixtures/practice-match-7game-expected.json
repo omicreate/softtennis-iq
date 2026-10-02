@@ -1,0 +1,256 @@
+{
+  "fixtureVersion": 1,
+  "description": "実運用CSVを匿名化した7ゲームマッチの検証データ。実名・会場名はテスト用名称に置換済み。",
+  "sourceFile": "local-export-20260601122044.csv",
+  "privacy": {
+    "anonymized": true,
+    "venueReplacedWith": "検証会場",
+    "tournamentReplacedWith": "検証練習試合",
+    "anonymizedPlayerLabels": [
+      "自チーム選手1",
+      "自チーム選手2",
+      "相手チーム選手1",
+      "相手チーム選手2"
+    ]
+  },
+  "match": {
+    "date": "2026-05-27",
+    "timeOfDay": "午後",
+    "startTime": "20:32",
+    "endTime": "20:54",
+    "weather": "晴れ",
+    "temperature": "15-19℃",
+    "wind": "弱い",
+    "surface": "オムニ",
+    "courtCondition": "乾いている",
+    "matchType": "ダブルス",
+    "formation": "雁行陣",
+    "event": "練習試合",
+    "tournament": "検証練習試合",
+    "venue": "検証会場",
+    "court": "第1コート",
+    "format": "7ゲームマッチ"
+  },
+  "summary": {
+    "rowCount": 43,
+    "ownPoints": 25,
+    "opponentPoints": 18,
+    "ownGamesWon": 4,
+    "opponentGamesWon": 1,
+    "finalGameScore": "4-1",
+    "lastScoreBeforePoint": {
+      "games": "3-1",
+      "points": "5-4"
+    }
+  },
+  "counts": {
+    "winners": {
+      "自チーム": 25,
+      "相手ペア": 18
+    },
+    "servers": {
+      "自チーム": 32,
+      "相手ペア": 11
+    },
+    "outcomes": {
+      "ボレー得点": 6,
+      "ストローク得点": 9,
+      "スマッシュミス": 3,
+      "スマッシュ得点": 2,
+      "レシーブ得点": 2,
+      "レシーブミス": 8,
+      "ストロークミス": 5,
+      "ボレーミス": 8
+    },
+    "shots": {
+      "ボレー": 14,
+      "ストローク": 14,
+      "スマッシュ": 5,
+      "レシーブ": 10
+    },
+    "phases": {
+      "ゲーム序盤": 10,
+      "ゲーム中盤": 10,
+      "ゲーム終盤": 23
+    },
+    "gameWonBy": {
+      "": 38,
+      "自チーム": 4,
+      "相手ペア": 1
+    }
+  },
+  "players": {
+    "相手チーム選手2": {
+      "points": 17,
+      "plus": 6,
+      "minus": 11,
+      "diff": -5,
+      "outcomes": {
+        "スマッシュ得点": 1,
+        "レシーブミス": 6,
+        "レシーブ得点": 1,
+        "ストローク得点": 2,
+        "ボレー得点": 2,
+        "ストロークミス": 1,
+        "ボレーミス": 3,
+        "スマッシュミス": 1
+      }
+    },
+    "相手チーム選手1": {
+      "points": 7,
+      "plus": 3,
+      "minus": 4,
+      "diff": -1,
+      "outcomes": {
+        "レシーブ得点": 1,
+        "ストローク得点": 2,
+        "ストロークミス": 2,
+        "レシーブミス": 1,
+        "ボレーミス": 1
+      }
+    },
+    "自チーム選手2": {
+      "points": 7,
+      "plus": 5,
+      "minus": 2,
+      "diff": 3,
+      "outcomes": {
+        "ストローク得点": 5,
+        "ストロークミス": 2
+      }
+    },
+    "自チーム選手1": {
+      "points": 12,
+      "plus": 5,
+      "minus": 7,
+      "diff": -2,
+      "outcomes": {
+        "ボレー得点": 4,
+        "スマッシュミス": 2,
+        "ボレーミス": 4,
+        "レシーブミス": 1,
+        "スマッシュ得点": 1
+      }
+    }
+  },
+  "serve": {
+    "自チーム": {
+      "points": 32,
+      "firstServeStarts": 25,
+      "firstServeStartRate": 78,
+      "outcomes": {
+        "ボレー得点": 4,
+        "ストローク得点": 5,
+        "スマッシュミス": 3,
+        "スマッシュ得点": 2,
+        "レシーブ得点": 2,
+        "レシーブミス": 7,
+        "ストロークミス": 3,
+        "ボレーミス": 6
+      }
+    },
+    "相手ペア": {
+      "points": 11,
+      "firstServeStarts": 6,
+      "firstServeStartRate": 55,
+      "outcomes": {
+        "ボレー得点": 2,
+        "レシーブミス": 1,
+        "ストローク得点": 4,
+        "ストロークミス": 2,
+        "ボレーミス": 2
+      }
+    }
+  },
+  "flow": {
+    "gameOpeningPoints": 5,
+    "gameOpeningWinners": {
+      "自チーム": 3,
+      "相手ペア": 2
+    },
+    "ownOpeningPointRate": 60,
+    "longestOwnStreak": {
+      "side": "自チーム",
+      "count": 3,
+      "startNo": 14,
+      "endNo": 16,
+      "topOutcome": "レシーブミス"
+    },
+    "longestOpponentStreak": {
+      "side": "相手ペア",
+      "count": 3,
+      "startNo": 3,
+      "endNo": 5,
+      "topOutcome": "スマッシュミス"
+    }
+  },
+  "appAnalysis": {
+    "total": 43,
+    "ownPoints": 25,
+    "ownLost": 18,
+    "pointDiff": 7,
+    "pointRate": 58,
+    "ownScoredByPattern": 10,
+    "ownPointsByOpponentError": 15,
+    "ownLostByOwnError": 9,
+    "firstServeRate": 78,
+    "secondServeStarts": 7,
+    "ownDoubleFaults": 0,
+    "ownReceiveMisses": 1,
+    "ownEarlyLost": 4,
+    "topScore": [
+      "ストローク得点",
+      5
+    ],
+    "topError": [
+      "ボレーミス",
+      4
+    ],
+    "topPlayer": [
+      "相手チーム選手2",
+      17
+    ],
+    "pointBreakdownRows": [
+      [
+        "自分たちで取った",
+        10,
+        "own",
+        "攻めて取れた点"
+      ],
+      [
+        "相手ミスで取った",
+        15,
+        "own",
+        "相手のミスで取れた点"
+      ],
+      [
+        "ミスで与えた",
+        9,
+        "opp",
+        "自分たちのミスで与えた点"
+      ]
+    ],
+    "playerPlusMinusRows": [
+      [
+        "自チーム選手1",
+        "+5 / -7 / 貢献差 -2",
+        "opp"
+      ],
+      [
+        "自チーム選手2",
+        "+5 / -2 / 貢献差 +3",
+        "own"
+      ],
+      [
+        "相手チーム選手1",
+        "+3 / -4 / 貢献差 -1",
+        "opp"
+      ],
+      [
+        "相手チーム選手2",
+        "+6 / -11 / 貢献差 -5",
+        "opp"
+      ]
+    ]
+  }
+}
