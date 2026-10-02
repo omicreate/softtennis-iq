@@ -9,6 +9,7 @@ import type { HoleSummary } from './geometry'
 import { buildShareUrl, parseLayoutSearch } from './layoutShare'
 import { FORMATION_OPTIONS, TENKAI_OPTIONS, applyFormation, applyTenkai } from './presets'
 import type { Formation, Team, Tenkai } from './presets'
+import { loadLastLayout, saveLastLayout } from './lastLayout'
 import { loadJuniorPref, loadSlots, persistJuniorPref, persistSlots } from './slots'
 import type { Slot } from './slots'
 import type { Handedness, MatchMode, Orientation, Player, PlayerRole, Stroke } from './types'
@@ -35,7 +36,14 @@ const ZOOM_MIN = 0.8
 const ZOOM_MAX = 1.6
 
 // 共有リンク（?layout=）で開いたときの配置。旧 jinkei-lab のリンクも転送されてここで読む
-const publicLayout = typeof window === 'undefined' ? null : parseLayoutSearch(window.location.search)
+const linkLayout = typeof window === 'undefined' ? null : parseLayoutSearch(window.location.search)
+let linkLayoutUsed = false
+
+/** 画面を開くたびに初期配置を決める。共有リンクの配置は最初の1回だけ使い、あとは前回の配置から始める */
+function initialLayout() {
+  const publicLayout = linkLayout && !linkLayoutUsed ? linkLayout : null
+  return { publicLayout, lastLayout: publicLayout ? null : loadLastLayout() }
+}
 
 function Segmented<T extends string>({
   value,
@@ -85,30 +93,36 @@ function ReachBar({ hole, junior }: { hole: HoleSummary; junior: boolean }) {
 }
 
 export function Jinkei({ section }: { section: JinkeiSection }) {
-  const [mode, setMode] = useState<MatchMode>(publicLayout?.mode ?? 'doubles')
+  const [{ publicLayout, lastLayout }] = useState(initialLayout)
+  useEffect(() => {
+    linkLayoutUsed = true
+  }, [])
+  const [mode, setMode] = useState<MatchMode>(publicLayout?.mode ?? lastLayout?.mode ?? 'doubles')
   const [playersByMode, setPlayersByMode] = useState(() =>
     !publicLayout
-      ? { doubles: doublesSeed, singles: singlesSeed }
+      ? (lastLayout?.players ?? { doubles: doublesSeed, singles: singlesSeed })
       : publicLayout.mode === 'doubles'
         ? { doubles: publicLayout.players, singles: singlesSeed }
         : { doubles: doublesSeed, singles: publicLayout.players },
   )
-  const [activeByMode, setActiveByMode] = useState<Record<MatchMode, string[]>>(() => ({
-    doubles: publicLayout?.mode === 'doubles' ? publicLayout.activeIds : ['a1'],
-    singles: publicLayout?.mode === 'singles' ? publicLayout.activeIds : ['a1'],
-  }))
+  const [activeByMode, setActiveByMode] = useState<Record<MatchMode, string[]>>(() =>
+    lastLayout?.activeIds ?? {
+      doubles: publicLayout?.mode === 'doubles' ? publicLayout.activeIds : ['a1'],
+      singles: publicLayout?.mode === 'singles' ? publicLayout.activeIds : ['a1'],
+    },
+  )
   const [orientation, setOrientation] = useState<Orientation>('vertical')
   const [zoom, setZoom] = useState(1)
   const [pan, setPan] = useState({ x: 0, y: 0 })
   const [rulerPos, setRulerPos] = useState<{ x: number | null; y: number | null }>({ x: null, y: null })
   const [showRuler, setShowRuler] = useState(false)
-  const [premise, setPremise] = useState(publicLayout?.premise ?? '')
+  const [premise, setPremise] = useState(publicLayout?.premise ?? lastLayout?.premise ?? '')
   const [junior, setJunior] = useState(publicLayout?.junior ?? loadJuniorPref)
   const [slots, setSlots] = useState<Slot[]>(loadSlots)
   const [preset, setPreset] = useState<{ tenkai: Tenkai | null; A: Formation | null; B: Formation | null }>({
-    tenkai: publicLayout ? null : 'cross',
-    A: publicLayout ? null : 'gankou',
-    B: publicLayout ? null : 'gankou',
+    tenkai: publicLayout || lastLayout ? null : 'cross',
+    A: publicLayout || lastLayout ? null : 'gankou',
+    B: publicLayout || lastLayout ? null : 'gankou',
   })
   const [toast, setToast] = useState('')
   const [undo, setUndo] = useState<{ players: Player[]; activeIds: string[]; premise: string } | null>(null)
@@ -129,6 +143,11 @@ export function Jinkei({ section }: { section: JinkeiSection }) {
     () => actives.map((s) => weakestHole(s, players, mode, junior)).filter((h): h is HoleSummary => h !== null),
     [actives, players, mode, junior],
   )
+
+  // 配置が変わるたびに、この端末へ自動で残す
+  useEffect(() => {
+    saveLastLayout({ mode, players: playersByMode, activeIds: activeByMode, premise })
+  }, [mode, playersByMode, activeByMode, premise])
 
   useEffect(() => {
     if (!toast) return

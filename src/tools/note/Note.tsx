@@ -1,7 +1,8 @@
 // 試合ノート（旧 soft-tennis-note を新デザインに移植）
 // 屋外の日なたでも読めるよう明るい「日なたモード」。スコアだけナイター色で締める。
 // 記録は「誰のプレー」「ショット」を選んで「取った／取られた」を押すだけ。保存されるデータの形は旧アプリと同じ。
-import { BarChart3, ChevronLeft, ListOrdered, Menu, PenLine } from 'lucide-react'
+import { BarChart3, ChevronLeft, ListOrdered, Menu, PenLine, X } from 'lucide-react'
+import { useState } from 'react'
 import { href } from '../../shell/route'
 import * as E from './engine/engine.js'
 import type { Side } from './engine/engine.js'
@@ -59,7 +60,54 @@ function Scoreboard() {
   )
 }
 
+export const GUIDE_KEY = 'stiq-note-guide-v1'
+const guideSeen = () => {
+  try {
+    return localStorage.getItem(GUIDE_KEY) === '1'
+  } catch {
+    return true
+  }
+}
+
+/** はじめて記録画面を開いたときだけ出す、3ステップの使い方 */
+function FirstGuide({ onClose }: { onClose: () => void }) {
+  return (
+    <section className="guide" aria-labelledby="guide-title">
+      <div className="rec-head">
+        <h2 id="guide-title">記録のしかた</h2>
+        <button type="button" className="icon-btn" aria-label="使い方を閉じる" onClick={onClose}>
+          <X size={18} />
+        </button>
+      </div>
+      <ol>
+        <li>
+          <b>サービス</b>：ふだんは「ファースト」のまま。入らなかったら「セカンド」
+        </li>
+        <li>
+          <b>誰のプレー・ショット</b>：分かるときだけ選ぶ。分からなければ飛ばしてOK
+        </li>
+        <li>
+          <b>取った／取られた</b>を押すと1点記録。まちがえたら「取り消す」
+        </li>
+      </ol>
+      <p className="fine">記録は試合を外から見ている保護者・控え選手・指導者が入れる想定です。分析と履歴は下のタブから。「試合」タブのサンプル試合で見え方を試せます。</p>
+      <button type="button" className="btn btn-primary btn-block" onClick={onClose}>
+        わかった
+      </button>
+    </section>
+  )
+}
+
 function Record({ act }: { act: <T>(fn: () => T) => T }) {
+  const [showGuide, setShowGuide] = useState(() => !guideSeen())
+  const closeGuide = () => {
+    try {
+      localStorage.setItem(GUIDE_KEY, '1')
+    } catch {
+      // 保存できなくても閉じる
+    }
+    setShowGuide(false)
+  }
   const s = E.getState()
   const singles = s.matchType === 'singles'
   const players = singles ? ['A選手', 'B選手'] : ['A後衛', 'A前衛', 'B後衛', 'B前衛']
@@ -105,6 +153,7 @@ function Record({ act }: { act: <T>(fn: () => T) => T }) {
 
   return (
     <main className="screen-body note-record">
+      {showGuide && <FirstGuide onClose={closeGuide} />}
       {s.points.length === 0 && (
         <div className="start-card">
           <p>

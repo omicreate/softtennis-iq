@@ -513,6 +513,20 @@ export function NoteMenu({ section, act }: { section: string; act: Act }) {
             {message}
           </p>
         )}
+        <button
+          type="button"
+          className="btn btn-quiet"
+          onClick={() => {
+            try {
+              localStorage.removeItem('stiq-note-guide-v1')
+            } catch {
+              // 保存できない環境では何もしない
+            }
+            location.hash = href('note')
+          }}
+        >
+          記録のしかたをもう一度見る
+        </button>
         <p className="fine">記録はこの端末のブラウザにだけ保存され、外部には送られません。以前の「ソフトテニス試合ノート」の記録もそのまま引き継いでいます。</p>
       </section>
     </main>

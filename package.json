@@ -8,9 +8,14 @@
     "test": "vitest run",
     "build": "tsc -b && vite build && node scripts/build-sw.mjs",
     "preview": "vite preview",
-    "icons": "node scripts/build-icons.mjs"
+    "icons": "node scripts/build-icons.mjs",
+    "ogp": "node scripts/build-ogp.mjs",
+    "test:e2e": "playwright test",
+    "test:all": "npm test && npm run build && playwright test"
   },
   "dependencies": {
+    "@fontsource/noto-sans-jp": "^5.3.0",
+    "@fontsource/outfit": "^5.3.0",
     "lucide-react": "1.24.0",
     "react": "19.2.7",
     "react-dom": "19.2.7"
