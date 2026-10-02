@@ -1,0 +1,144 @@
+/* ホーム：3つの道具をそれぞれの「現物」の図で並べる */
+
+.home-hero {
+  padding-top: var(--s4);
+  display: grid;
+  gap: var(--s2);
+}
+.home-hero h1 {
+  font-size: var(--fs-2xl);
+  font-weight: 900;
+  letter-spacing: -0.01em;
+}
+
+.tool-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--s3);
+}
+.tool-card {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr) auto;
+  gap: var(--s4);
+  align-items: center;
+  background: var(--surface);
+  border-radius: var(--r-lg);
+  padding: var(--s4);
+  color: var(--ink);
+  text-decoration: none;
+  transition: background-color 0.15s;
+}
+.tool-card:hover {
+  background: var(--surface-2);
+}
+.tool-card > svg:last-child {
+  color: var(--faint);
+}
+.tool-text {
+  display: grid;
+  gap: 2px;
+}
+.tool-text h2 {
+  font-size: var(--fs-lg);
+  font-weight: 900;
+}
+.tool-text p {
+  font-size: var(--fs-sm);
+  color: var(--mute);
+  line-height: 1.6;
+}
+.tool-note {
+  font-size: var(--fs-xs);
+  color: var(--faint);
+  margin-top: var(--s1);
+}
+
+/* カード左の小さな図 */
+.tv {
+  width: 120px;
+  height: 64px;
+  border-radius: var(--r-sm);
+}
+.tv-drill {
+  background: var(--bg);
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 6px;
+  font-size: var(--fs-xs);
+  color: var(--mute);
+  font-weight: 600;
+}
+.tv-balls {
+  display: flex;
+  gap: 3px;
+}
+.tv-balls i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--surface-3);
+}
+.tv-balls i.ok {
+  background: var(--ball);
+}
+.tv-balls i.ng {
+  background: var(--ng);
+}
+.tv-score {
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s3);
+}
+.tv-score b {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--ours);
+  line-height: 1;
+}
+.tv-score b.opp {
+  color: var(--opp);
+}
+.tv-score span {
+  font-size: var(--fs-xs);
+  color: var(--faint);
+}
+
+.home-foot {
+  margin-top: auto;
+  padding-top: var(--s6);
+  display: grid;
+  gap: var(--s2);
+  font-size: var(--fs-xs);
+  color: var(--faint);
+  line-height: 1.7;
+}
+
+@media (max-width: 420px) {
+  .tool-card {
+    grid-template-columns: 84px minmax(0, 1fr) auto;
+    gap: var(--s3);
+    padding: var(--s3);
+  }
+  .tv {
+    width: 84px;
+    height: 56px;
+  }
+  .tv-balls {
+    gap: 2px;
+  }
+  .tv-balls i {
+    width: 6px;
+    height: 6px;
+  }
+  .tv-score b {
+    font-size: 1.5rem;
+  }
+  .tv-score {
+    gap: var(--s2);
+  }
+}

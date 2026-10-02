@@ -1,0 +1,71 @@
+/*
+ * ソフトテニスIQ 共通デザイントークン
+ * 色・書体は動画テンプレート（st-studio/template/player.html）と同じ値。
+ * 強調色はボールの黄緑 1 色だけ。自チーム＝黄、相手＝白、失点・穴＝赤 は全ツール共通の意味。
+ */
+:root {
+  /* 地と面（ナイター） */
+  --bg: #0e1a2b;
+  --surface: #1b2f4b;
+  --surface-2: #22395a;
+  --surface-3: #2b4569;
+  --line: rgba(184, 198, 214, 0.16);
+
+  /* 文字 */
+  --ink: #ffffff;
+  --mute: #b8c6d6;
+  --faint: #7f93ab;
+  --on-accent: #0e1a2b;
+
+  /* コート */
+  --court: #2a7656;
+  --apron: #1f5a42;
+  --court-line: #ffffff;
+
+  /* 意味のある色 */
+  --ball: #d8f04a; /* 強調・正解・現在地 */
+  --ours: #f4e04d; /* 自チーム */
+  --opp: #ffffff; /* 相手 */
+  --ng: #ff7a6b; /* 失点・ミス・守備の穴 */
+
+  /* 日なたモード（屋外で使う画面） */
+  --sun-bg: #f3f6f2;
+  --sun-surface: #ffffff;
+  --sun-ink: #0e1a2b;
+  --sun-mute: #4d5d70;
+  --sun-line: #d5ddd6;
+  --sun-ng: #c2413a;
+
+  /* 書体 */
+  --font-jp: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic UI', sans-serif;
+  --font-num: 'Outfit', 'Noto Sans JP', sans-serif;
+
+  /* 文字サイズ（1.25 刻み） */
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-md: 1rem;
+  --fs-lg: 1.25rem;
+  --fs-xl: 1.5625rem;
+  --fs-2xl: 1.953rem;
+  --fs-num: 3.5rem;
+
+  /* 余白（4px 基準） */
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s5: 20px;
+  --s6: 24px;
+  --s8: 32px;
+
+  /* 角丸 */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-pill: 999px;
+
+  --tap: 48px; /* 押せる要素の最小の高さ */
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  color-scheme: dark;
+}
