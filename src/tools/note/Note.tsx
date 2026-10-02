@@ -125,11 +125,11 @@ function Record({ act }: { act: <T>(fn: () => T) => T }) {
         <div className="rec-head">
           <h2>サービス</h2>
           <p className="svc-players">
-            <button type="button" onClick={() => cycleServicePlayer('selectedServerPlayer', s.server)}>
+            <button type="button" aria-label={`サーブする選手：${E.playerLabel(s.selectedServerPlayer)}（タップで変更）`} onClick={() => cycleServicePlayer('selectedServerPlayer', s.server)}>
               {E.playerLabel(s.selectedServerPlayer)}
             </button>
             <span aria-hidden="true">→</span>
-            <button type="button" onClick={() => cycleServicePlayer('selectedReceiverPlayer', otherSide(s.server))}>
+            <button type="button" aria-label={`レシーブする選手：${E.playerLabel(s.selectedReceiverPlayer)}（タップで変更）`} onClick={() => cycleServicePlayer('selectedReceiverPlayer', otherSide(s.server))}>
               {E.playerLabel(s.selectedReceiverPlayer)}
             </button>
           </p>
