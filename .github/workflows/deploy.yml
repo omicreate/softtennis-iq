@@ -1,7 +1,8 @@
 name: Deploy to GitHub Pages
 
-# Pages を有効にするまでは手動実行のみ。有効にしたら push: branches: [main] を戻す
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:

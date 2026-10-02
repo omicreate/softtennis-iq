@@ -9,8 +9,8 @@ export const sources: Source[] = [
     publisher: "公益財団法人 日本ソフトテニス連盟",
     url: "https://www.jsta.or.jp/judge_tech",
     publishedAt: "2026-04-01",
-    checkedAt: "2026-09-19",
-    scopeNote: "競技規則・審判規則の用語と進行の確認。公式文章や図表は転載せず、子どもと保護者向けの自作問題に変換。"
+    checkedAt: "2026-10-02",
+    scopeNote: "製本版のスキャンで全問の条文を確認（2026-10-02）。公式文章や図表は転載せず、子どもと保護者向けの自作問題に変換。"
   },
   {
     id: "jsta-rule-revision-2026",
@@ -47,10 +47,10 @@ export const sources: Source[] = [
     rank: "A",
     title: "ソフトテニスラケット公認マークの廃止およびコイントスの導入について",
     publisher: "公益財団法人 日本ソフトテニス連盟",
-    url: "https://www.jsta.or.jp/topics/2026/04/19569.html",
+    url: "https://jsta.or.jp/news/2026/04/07/%e3%82%bd%e3%83%95%e3%83%88%e3%83%86%e3%83%8b%e3%82%b9%e3%83%a9%e3%82%b1%e3%83%83%e3%83%88%e5%85%ac%e8%aa%8d%e3%83%9e%e3%83%bc%e3%82%af%e3%81%ae%e5%bb%83%e6%ad%a2%e3%81%8a%e3%82%88%e3%81%b3%e3%82%b3/",
     publishedAt: "2026-04-07",
-    checkedAt: "2026-09-19",
-    scopeNote: "JSTA主催大会でのコイントス導入と都道府県連盟への順次適用依頼。"
+    checkedAt: "2026-10-02",
+    scopeNote: "JSTA主催大会でのコイントス導入、都道府県連盟への順次適用依頼、ラケット公認マークの2026年下期新製品からの順次廃止。（JSTAサイト改装で旧URLから移動）"
   },
   {
     id: "hyogo-coin-toss-procedure-2026",

@@ -5,22 +5,28 @@ import { buildDrillSet, categoryStats, defaultProgress, DRILL_SET_SIZE, recordAn
 import { categories, questions } from './questions'
 import { sources } from './sources'
 
-// 旧 soft-tennis-rule-drill/tests/data.test.js の確認項目を引き継ぐ
+// 問題データの約束（2026-10-02 にルールブックの条文で全面作り直し）
 describe('問題データ', () => {
   const sourceIds = new Set(sources.map((s) => s.id))
+  const answerOf = (id: string) => {
+    const q = questions.find((x) => x.id === id)!
+    return q.choices.find((c) => c.id === q.answerId)!.text
+  }
 
-  it('108問すべて別の設問で、確認済み', () => {
-    expect(questions).toHaveLength(108)
-    expect(new Set(questions.map((q) => q.id)).size).toBe(108)
-    expect(new Set(questions.map((q) => q.prompt)).size).toBe(108)
+  it('100問以上あり、IDと問題文が重複しない', () => {
+    expect(questions.length).toBeGreaterThanOrEqual(100)
+    expect(new Set(questions.map((q) => q.id)).size).toBe(questions.length)
+    expect(new Set(questions.map((q) => q.prompt)).size).toBe(questions.length)
     expect(questions.every((q) => q.reviewStatus === 'reviewed')).toBe(true)
   })
 
-  it('各問は4択で、正解・出典・ジャンルがそろっている', () => {
+  it('各問は重複のない4択で、正解・出典・根拠の条文・ジャンルがそろっている', () => {
     for (const q of questions) {
       expect(q.choices, q.id).toHaveLength(4)
+      expect(new Set(q.choices.map((c) => c.text)).size, q.id).toBe(4)
       expect(q.choices.some((c) => c.id === q.answerId), q.id).toBe(true)
       expect(q.sourceRefs.every((id) => sourceIds.has(id)), q.id).toBe(true)
+      expect(q.ruleRef, q.id).toMatch(/競技規則|審判規則|JSTAお知らせ/)
       expect(categories, q.id).toContain(q.category)
       for (const field of ['officialTerm', 'plainExplanation', 'scopeNote', 'lastVerified'] as const) {
         expect(q[field], `${q.id} ${field}`).toBeTruthy()
@@ -28,35 +34,42 @@ describe('問題データ', () => {
     }
   })
 
-  it('用語を問う問題は、正解が公式用語と一致する', () => {
+  it('どのジャンルにも3問以上ある', () => {
+    for (const c of categories) expect(questions.filter((q) => q.category === c).length, c).toBeGreaterThanOrEqual(3)
+  })
+
+  it('用語の名前を問う問題は、正解が公式用語と一致する', () => {
     for (const q of questions) {
-      if (!/名前は？|何と呼ぶ？|規則の呼び方は？|名称は？/.test(q.prompt)) continue
-      const answer = q.choices.find((c) => c.id === q.answerId)!
-      expect(answer.text.includes(q.officialTerm), q.id).toBe(true)
+      if (!/何と呼ぶ？|何とコールする？/.test(q.prompt)) continue
+      expect(answerOf(q.id).includes(q.officialTerm), q.id).toBe(true)
     }
   })
 
-  it('公式用語に合わせる（アンパイア・ツーバウンズ・正審）', () => {
-    const all = questions.flatMap((q) => [q.prompt, q.plainExplanation, q.officialTerm, ...q.choices.map((c) => c.text)]).join('\n')
-    expect(all).not.toContain('アンパイヤー')
-    expect(all).not.toContain('主審')
+  it('公式用語に合わせる（アンパイア・正審・ツーバウンズ・チェンジサイズ）', () => {
+    // 誤答の選択肢には、まちがえやすい言い方としてあえて入れてよい
+    const shown = questions.flatMap((q) => [q.prompt, q.plainExplanation, q.officialTerm, answerOf(q.id)]).join('\n')
+    expect(shown).not.toContain('アンパイヤー')
+    expect(shown).not.toContain('主審')
+    expect(shown).not.toContain('チェンジサイド')
     expect(questions.some((q) => q.officialTerm === 'ツーバウンド')).toBe(false)
-    expect(questions.some((q) => q.officialTerm === 'ツーバウンズ')).toBe(true)
-    expect(questions.some((q) => q.officialTerm === 'スルー')).toBe(true)
+    expect(answerOf('fault-03')).toBe('ツーバウンズ')
+    expect(answerOf('call-02')).toBe('チェンジサイズ')
   })
 
-  it('ジャンルの問題数', () => {
-    const count = (c: string) => questions.filter((q) => q.category === c).length
-    expect(count('2026年コイントス運用')).toBe(3)
-    expect(count('ヒートルール')).toBe(3)
-    expect(count('スコア')).toBeGreaterThanOrEqual(10)
-    expect(count('サービス/レシーブ')).toBeGreaterThanOrEqual(10)
-    expect(count('失ポイント')).toBeGreaterThanOrEqual(10)
+  it('ワンモア／ツーモアサービス：ファーストからはツーモア、セカンドからはワンモア（審判規則 コール別表35・36）', () => {
+    expect(answerOf('let-06')).toBe('ツーモアサービス')
+    expect(answerOf('let-07')).toBe('ワンモアサービス')
+  })
+
+  it('ファイナルゲームは7ポイント先取、3対3はスリーオール、6対6でデュース', () => {
+    expect(answerOf('score-05')).toBe('7ポイント')
+    expect(answerOf('score-07')).toBe('スリーオール')
+    expect(answerOf('score-06')).toBe('デュースになる')
   })
 
   it('ヒートルールは暑さ指数31以上が正解で、旧基準の気温35℃は誤答として残す', () => {
     const q = questions.find((x) => x.id === 'heat-01')!
-    expect(q.choices.find((c) => c.id === q.answerId)!.text).toContain('31')
+    expect(answerOf('heat-01')).toContain('31')
     expect(q.choices.some((c) => c.text.includes('気温35℃'))).toBe(true)
   })
 })
@@ -93,7 +106,9 @@ describe('出題', () => {
 
   it('ジャンル指定ではそのジャンルだけを出す', () => {
     const { set } = buildDrillSet(defaultProgress(), 'ヒートルール', seeded(1))
-    expect(set.map((q) => q.category)).toEqual(['ヒートルール', 'ヒートルール', 'ヒートルール'])
+    const total = questions.filter((q) => q.category === 'ヒートルール').length
+    expect(set).toHaveLength(Math.min(total, DRILL_SET_SIZE))
+    expect(set.every((q) => q.category === 'ヒートルール')).toBe(true)
   })
 })
 
