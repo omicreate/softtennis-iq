@@ -50,6 +50,14 @@ a {
   color: var(--ball);
 }
 
+/* ボタンやタブとして使うリンクには下線を付けない */
+a.btn,
+a.tab,
+a.icon-btn,
+a.tool-card {
+  text-decoration: none;
+}
+
 :focus-visible {
   outline: 3px solid var(--ball);
   outline-offset: 2px;
@@ -205,6 +213,10 @@ a {
 .btn-quiet {
   color: var(--mute);
   font-weight: 700;
+}
+.btn-danger {
+  background: var(--ng);
+  color: var(--on-accent);
 }
 .btn-block {
   width: 100%;
