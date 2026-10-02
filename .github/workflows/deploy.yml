@@ -23,7 +23,8 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - run: npm ci
+      # Windows で作った lock には Linux 専用の任意依存が欠けることがあるため、失敗時は install で補う
+      - run: npm ci || npm install --no-audit --no-fund
       - run: npm run build
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
