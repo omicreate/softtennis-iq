@@ -858,3 +858,39 @@
   grid-template-columns: 1fr 1fr;
   gap: var(--s2);
 }
+
+/* はじめての使い方 */
+.guide {
+  background: #0e1a2b;
+  color: #fff;
+  border-radius: var(--r-lg);
+  padding: var(--s3) var(--s4) var(--s4);
+  display: grid;
+  gap: var(--s2);
+}
+.guide h2 {
+  font-size: var(--fs-md);
+  font-weight: 900;
+  color: #d8f04a;
+}
+.guide .icon-btn {
+  color: #b8c6d6;
+}
+.guide ol {
+  margin: 0;
+  padding-left: 1.3em;
+  display: grid;
+  gap: 6px;
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+}
+.guide b {
+  color: #f4e04d;
+}
+.guide .fine {
+  color: #b8c6d6;
+}
+.guide .btn-primary {
+  background: #d8f04a;
+  color: #0e1a2b;
+}

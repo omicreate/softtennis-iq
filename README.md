@@ -42,10 +42,16 @@
 
 ```sh
 npm install
-npm test
+npm test            # 単体テスト（ルール問題・陣形計算・試合ノートの回帰・公開情報チェック）
 npm run build
+npm run test:e2e    # スマホ幅での操作テスト（ビルド後。初回は npx playwright install chromium）
+npm run test:all    # 上の3つをまとめて
 npm run dev
 ```
+
+- 公開（push）時は GitHub Actions が単体テストを通してからビルドする
+- 共有用の画像は `scripts/ogp.html` を直して `npm run ogp`
+- 書体（Noto Sans JP・Outfit）は @fontsource で同梱。オフラインでも同じ見た目
 
 問題を直すときは [docs/update-rules.md](docs/update-rules.md) の手順に従います。
 

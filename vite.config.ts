@@ -7,5 +7,7 @@ export default defineConfig({
   plugins: [react()],
   test: {
     environment: 'node',
+    // e2e/ は Playwright（npm run test:e2e）で動かす
+    include: ['src/**/*.test.ts'],
   },
 })
