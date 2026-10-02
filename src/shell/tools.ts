@@ -24,7 +24,7 @@ export const tools: ToolInfo[] = [
     id: 'jinkei',
     name: '陣形ラボ',
     lead: '配置をドラッグして、守備の穴をラケット何本分かで読む',
-    status: 'legacy',
+    status: 'ready',
     legacyUrl: 'https://omicreate.github.io/jinkei-lab/',
     trackName: 'jinkei-lab',
   },
