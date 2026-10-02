@@ -1,0 +1,353 @@
+{
+  "fixtureVersion": 1,
+  "description": "実運用CSVを匿名化した追加検証データ。重複CSVは片方のみ採用する。",
+  "privacy": {
+    "anonymized": true,
+    "venueReplacedWith": "検証会場",
+    "tournamentReplacedWith": "検証練習試合",
+    "originalCsvFilesKeptOutOfGit": true
+  },
+  "duplicates": [
+    {
+      "kept": "local-export-20260601124253.csv",
+      "omitted": "local-export-20260601124232.csv",
+      "reason": "CSV内容が完全一致するため、fixtureは1本だけ採用"
+    }
+  ],
+  "fixtures": [
+    {
+      "name": "practice-match-7game-extended",
+      "file": "practice-match-7game-extended-anonymized.csv",
+      "sourceFile": "local-export-20260601124309.csv",
+      "rowCount": 46,
+      "match": {
+        "format": "7ゲームマッチ",
+        "type": "ダブルス",
+        "event": "練習試合",
+        "date": "2026-05-27"
+      },
+      "counts": {
+        "winners": {
+          "自チーム": 22,
+          "相手ペア": 24
+        },
+        "servers": {
+          "自チーム": 23,
+          "相手ペア": 23
+        },
+        "outcomes": {
+          "レシーブミス": 8,
+          "ボレーミス": 5,
+          "ストロークミス": 9,
+          "ボレー得点": 9,
+          "スマッシュ得点": 4,
+          "ストローク得点": 6,
+          "ダブルフォールト": 2,
+          "スマッシュミス": 2,
+          "レシーブ得点": 1
+        },
+        "shots": {
+          "レシーブ": 9,
+          "ボレー": 14,
+          "ストローク": 15,
+          "スマッシュ": 6,
+          "サービス": 2
+        },
+        "phases": {
+          "ゲーム序盤": 14,
+          "ゲーム中盤": 14,
+          "ゲーム終盤": 18
+        },
+        "gameWonBy": {
+          "": 39,
+          "自チーム": 3,
+          "相手ペア": 4
+        }
+      },
+      "players": {
+        "相手チーム選手1": {
+          "points": 9,
+          "plus": 4,
+          "minus": 5,
+          "diff": -1,
+          "outcomes": {
+            "レシーブミス": 2,
+            "ストロークミス": 2,
+            "ダブルフォールト": 1,
+            "ストローク得点": 3,
+            "レシーブ得点": 1
+          }
+        },
+        "相手チーム選手2": {
+          "points": 13,
+          "plus": 6,
+          "minus": 7,
+          "diff": -1,
+          "outcomes": {
+            "レシーブミス": 3,
+            "ボレー得点": 5,
+            "ストロークミス": 3,
+            "スマッシュ得点": 1,
+            "ダブルフォールト": 1
+          }
+        },
+        "自チーム選手1": {
+          "points": 15,
+          "plus": 7,
+          "minus": 8,
+          "diff": -1,
+          "outcomes": {
+            "ボレーミス": 4,
+            "ボレー得点": 4,
+            "スマッシュ得点": 3,
+            "レシーブミス": 2,
+            "スマッシュミス": 2
+          }
+        },
+        "自チーム選手2": {
+          "points": 9,
+          "plus": 3,
+          "minus": 6,
+          "diff": -3,
+          "outcomes": {
+            "ストローク得点": 3,
+            "ストロークミス": 4,
+            "レシーブミス": 1,
+            "ボレーミス": 1
+          }
+        }
+      },
+      "flow": {
+        "gameOpeningPoints": 7,
+        "gameOpeningWinners": {
+          "自チーム": 4,
+          "相手ペア": 3
+        },
+        "longestOwnStreak": {
+          "side": "自チーム",
+          "count": 6,
+          "startNo": 15,
+          "endNo": 20,
+          "topOutcome": "レシーブミス"
+        },
+        "longestOpponentStreak": {
+          "side": "相手ペア",
+          "count": 6,
+          "startNo": 23,
+          "endNo": 28,
+          "topOutcome": "ストロークミス"
+        }
+      },
+      "summary": {
+        "ownPoints": 22,
+        "opponentPoints": 24,
+        "ownGamesWon": 3,
+        "opponentGamesWon": 4,
+        "gameScore": "3-4",
+        "lastScoreBeforePoint": {
+          "games": "3-3",
+          "points": "6-7"
+        }
+      }
+    },
+    {
+      "name": "practice-match-7game-midgame",
+      "file": "practice-match-7game-midgame-anonymized.csv",
+      "sourceFile": "local-export-20260601124253.csv",
+      "rowCount": 28,
+      "match": {
+        "format": "7ゲームマッチ",
+        "type": "ダブルス",
+        "event": "練習試合",
+        "date": "2026-05-27"
+      },
+      "counts": {
+        "winners": {
+          "相手ペア": 18,
+          "自チーム": 10
+        },
+        "servers": {
+          "自チーム": 17,
+          "相手ペア": 11
+        },
+        "outcomes": {
+          "ストロークミス": 6,
+          "スマッシュ得点": 1,
+          "ボレーミス": 5,
+          "レシーブ得点": 3,
+          "ストローク得点": 6,
+          "レシーブミス": 3,
+          "ボレー得点": 2,
+          "スマッシュミス": 2
+        },
+        "shots": {
+          "ストローク": 12,
+          "スマッシュ": 3,
+          "ボレー": 7,
+          "レシーブ": 6
+        },
+        "phases": {
+          "ゲーム序盤": 10,
+          "ゲーム中盤": 10,
+          "ゲーム終盤": 8
+        },
+        "gameWonBy": {
+          "": 23,
+          "相手ペア": 4,
+          "自チーム": 1
+        }
+      },
+      "players": {
+        "自チーム選手2": {
+          "points": 9,
+          "plus": 4,
+          "minus": 5,
+          "diff": -1,
+          "outcomes": {
+            "ストロークミス": 3,
+            "ストローク得点": 4,
+            "レシーブミス": 2
+          }
+        },
+        "相手チーム選手2": {
+          "points": 9,
+          "plus": 5,
+          "minus": 4,
+          "diff": 1,
+          "outcomes": {
+            "スマッシュ得点": 1,
+            "レシーブ得点": 2,
+            "ボレー得点": 1,
+            "ストローク得点": 1,
+            "ボレーミス": 2,
+            "スマッシュミス": 1,
+            "レシーブミス": 1
+          }
+        },
+        "自チーム選手1": {
+          "points": 6,
+          "plus": 1,
+          "minus": 5,
+          "diff": -4,
+          "outcomes": {
+            "ボレーミス": 3,
+            "ストロークミス": 1,
+            "ボレー得点": 1,
+            "スマッシュミス": 1
+          }
+        },
+        "相手チーム選手1": {
+          "points": 4,
+          "plus": 2,
+          "minus": 2,
+          "diff": 0,
+          "outcomes": {
+            "ストロークミス": 2,
+            "ストローク得点": 1,
+            "レシーブ得点": 1
+          }
+        }
+      },
+      "flow": {
+        "gameOpeningPoints": 5,
+        "gameOpeningWinners": {
+          "相手ペア": 2,
+          "自チーム": 3
+        },
+        "longestOwnStreak": {
+          "side": "自チーム",
+          "count": 2,
+          "startNo": 13,
+          "endNo": 14,
+          "topOutcome": "ストローク得点"
+        },
+        "longestOpponentStreak": {
+          "side": "相手ペア",
+          "count": 4,
+          "startNo": 1,
+          "endNo": 4,
+          "topOutcome": "ストロークミス"
+        }
+      },
+      "summary": {
+        "ownPoints": 10,
+        "opponentPoints": 18,
+        "ownGamesWon": 1,
+        "opponentGamesWon": 4,
+        "gameScore": "1-4",
+        "lastScoreBeforePoint": {
+          "games": "1-3",
+          "points": "1-3"
+        }
+      }
+    },
+    {
+      "name": "practice-match-1point",
+      "file": "practice-match-1point-anonymized.csv",
+      "sourceFile": "local-export-20260601124151.csv",
+      "rowCount": 1,
+      "match": {
+        "format": "7ゲームマッチ",
+        "type": "ダブルス",
+        "event": "未記録",
+        "date": "2026-05-27"
+      },
+      "counts": {
+        "winners": {
+          "自チーム": 1
+        },
+        "servers": {
+          "自チーム": 1
+        },
+        "outcomes": {
+          "スマッシュ得点": 1
+        },
+        "shots": {
+          "スマッシュ": 1
+        },
+        "phases": {
+          "ゲーム序盤": 1
+        },
+        "gameWonBy": {
+          "": 1
+        }
+      },
+      "players": {
+        "自チーム選手2": {
+          "points": 1,
+          "plus": 1,
+          "minus": 0,
+          "diff": 1,
+          "outcomes": {
+            "スマッシュ得点": 1
+          }
+        }
+      },
+      "flow": {
+        "gameOpeningPoints": 1,
+        "gameOpeningWinners": {
+          "自チーム": 1
+        },
+        "longestOwnStreak": {
+          "side": "自チーム",
+          "count": 1,
+          "startNo": 1,
+          "endNo": 1,
+          "topOutcome": "スマッシュ得点"
+        },
+        "longestOpponentStreak": null
+      },
+      "summary": {
+        "ownPoints": 1,
+        "opponentPoints": 0,
+        "ownGamesWon": 0,
+        "opponentGamesWon": 0,
+        "gameScore": "0-0",
+        "lastScoreBeforePoint": {
+          "games": "0-0",
+          "points": "0-0"
+        }
+      }
+    }
+  ]
+}

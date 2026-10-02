@@ -32,7 +32,7 @@ export const tools: ToolInfo[] = [
     id: 'note',
     name: '試合ノート',
     lead: '外から試合を記録して、得点とミスの傾向を振り返る',
-    status: 'legacy',
+    status: 'ready',
     legacyUrl: 'https://omicreate.github.io/soft-tennis-note/',
     trackName: 'soft-tennis-note',
   },
