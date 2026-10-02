@@ -107,6 +107,11 @@
 .feedback b {
   color: var(--ink);
 }
+.feedback-ref {
+  margin-top: var(--s1);
+  font-size: var(--fs-xs);
+  color: var(--faint);
+}
 .feedback-head {
   font-weight: 900;
   font-size: var(--fs-md);

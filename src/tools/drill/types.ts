@@ -12,6 +12,8 @@ export interface Question {
   answerId: string
   officialTerm: string
   plainExplanation: string
+  /** 根拠の条文（例: 競技規則 第28条） */
+  ruleRef: string
   sourceRefs: string[]
   sourceRank: string
   effectiveFrom: string

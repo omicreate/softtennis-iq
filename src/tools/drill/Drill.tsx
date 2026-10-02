@@ -185,6 +185,7 @@ function Play({ session, onAnswer, onNext }: { session: Session; onAnswer: (id: 
           <p>
             <b>{q.officialTerm}</b>　{q.plainExplanation}
           </p>
+          <p className="feedback-ref">ルールブック：{q.ruleRef}</p>
         </section>
       )}
 
