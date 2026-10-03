@@ -9,7 +9,8 @@ const ENDPOINT =
 export function trackSourceOnce() {
   try {
     const src = new URLSearchParams(location.search).get('src')
-    if (!src) return
+    // 印は英数字・ハイフン・下線だけ（40文字まで）。それ以外は送らない（集計シートへの数式の混入などを防ぐ）
+    if (!src || !/^[A-Za-z0-9_-]{1,40}$/.test(src)) return
     const app = toolById(parseRoute(location.hash)[0] ?? '')?.trackName ?? 'softtennis-iq'
     const key = `src_sent:${app}:${src}`
     if (sessionStorage.getItem(key)) return
