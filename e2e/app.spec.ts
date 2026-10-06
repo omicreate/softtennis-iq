@@ -133,7 +133,7 @@ test('応援：ホームとドリルの結果に応援欄があり、note への
   await page.goto('./')
   const support = page.locator('.support')
   await expect(support).toBeVisible()
-  await expect(support.getByRole('link', { name: 'note のサポート' })).toHaveAttribute('href', 'https://note.com/softtennis_iq')
+  await expect(support.getByRole('link', { name: 'note のチップ' })).toHaveAttribute('href', 'https://note.com/softtennis_iq')
   await expect(support.getByRole('button', { name: 'チームに教える' })).toBeVisible()
   await expectNoHorizontalScroll(page)
   await page.goto('./#/drill')

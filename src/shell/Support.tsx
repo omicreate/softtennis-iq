@@ -11,7 +11,7 @@ export function shareUrl() {
 
 /**
  * 応援の入口。いちばんの応援は「仲間に教えてもらうこと」なので共有を先に、
- * お金での応援（note のサポート）は大人向けに控えめに置く。
+ * お金での応援（note のチップ）は大人向けに控えめに置く。
  */
 export function Support({ compact = false }: { compact?: boolean }) {
   const [msg, setMsg] = useState('')
@@ -56,7 +56,7 @@ export function Support({ compact = false }: { compact?: boolean }) {
       <p className="support-adult">
         大人の方へ：
         <a href={NOTE_URL} target="_blank" rel="noopener">
-          note のサポート
+          note のチップ
         </a>
         で開発を応援できます。
       </p>
