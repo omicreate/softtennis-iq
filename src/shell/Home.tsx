@@ -1,6 +1,7 @@
 import { ArrowUpRight, ChevronRight } from 'lucide-react'
 import { loadProgress } from '../tools/drill/storage'
 import { href } from './route'
+import { Support } from './Support'
 import { tools, type ToolId } from './tools'
 import './home.css'
 
@@ -85,6 +86,8 @@ export function Home() {
             )
           })}
         </ul>
+
+        <Support />
 
         <footer className="home-foot">
           <p>

@@ -1,0 +1,39 @@
+/* 応援の入口：ホームの下とドリルの結果に出す。道具のカードより目立たせない */
+
+.support {
+  display: grid;
+  gap: var(--s3);
+  padding: var(--s4);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+}
+.support h2 {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  font-size: var(--fs-md);
+  font-weight: 900;
+}
+.support h2 svg {
+  color: var(--ng);
+}
+.support p {
+  font-size: var(--fs-sm);
+  color: var(--mute);
+  line-height: 1.7;
+}
+.support .support-adult {
+  font-size: var(--fs-xs);
+  color: var(--faint);
+}
+.support .support-adult a {
+  color: var(--mute);
+}
+.support .support-msg {
+  font-size: var(--fs-xs);
+  color: var(--ball);
+  word-break: break-all;
+}
+.support.compact {
+  margin-top: var(--s4);
+}

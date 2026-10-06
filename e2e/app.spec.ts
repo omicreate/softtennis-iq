@@ -128,3 +128,19 @@ test('試合ノート：旧アプリで保存した試合をそのまま開け�
   await page.goto('./#/note/archive')
   await expect(page.locator('.archive li b')).toHaveText(['2026-05-30 / 旧データ中 vs 相手校 / 4-2'])
 })
+
+test('応援：ホームとドリルの結果に応援欄があり、note へのリンクが付いている', async ({ page }) => {
+  await page.goto('./')
+  const support = page.locator('.support')
+  await expect(support).toBeVisible()
+  await expect(support.getByRole('link', { name: 'note のサポート' })).toHaveAttribute('href', 'https://note.com/softtennis_iq')
+  await expect(support.getByRole('button', { name: 'チームに教える' })).toBeVisible()
+  await expectNoHorizontalScroll(page)
+  await page.goto('./#/drill')
+  for (let i = 0; i < 10; i += 1) {
+    await page.locator('.choice').first().click()
+    await page.locator('.play-foot .btn').click()
+  }
+  await expect(page.locator('.support.compact')).toBeVisible()
+  await expectNoHorizontalScroll(page)
+})

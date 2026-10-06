@@ -1,6 +1,7 @@
 import { BarChart3, Check, ChevronLeft, CircleHelp, RotateCcw, X } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { href } from '../../shell/route'
+import { Support } from '../../shell/Support'
 import {
   buildDrillSet,
   defaultProgress,
@@ -246,6 +247,7 @@ function Result({ session, onRestart, reviewCount }: { session: Session; onResta
         </section>
       )}
 
+      <Support compact />
     </main>
   )
 }
