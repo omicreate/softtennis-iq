@@ -1,4 +1,4 @@
-export type ToolId = 'drill' | 'jinkei' | 'note'
+export type ToolId = 'quiz' | 'drill' | 'jinkei' | 'note'
 
 export interface ToolInfo {
   id: ToolId
@@ -12,6 +12,14 @@ export interface ToolInfo {
 }
 
 export const tools: ToolInfo[] = [
+  {
+    id: 'quiz',
+    name: '局面クイズ',
+    lead: '動画の戦術問題を、毎日1問。正解の動きと理由まで',
+    status: 'ready',
+    legacyUrl: '',
+    trackName: 'softtennis-quiz',
+  },
   {
     id: 'drill',
     name: 'ルールドリル',

@@ -21,6 +21,19 @@ function ToolVisual({ id }: { id: ToolId }) {
       </div>
     )
   }
+  if (id === 'quiz') {
+    return (
+      <svg className="tv tv-court" viewBox="0 0 120 64" aria-hidden="true">
+        <rect width="120" height="64" rx="6" fill="var(--apron)" />
+        <rect x="8" y="10" width="104" height="44" fill="var(--court)" stroke="#fff" strokeWidth="1.2" />
+        <line x1="60" y1="6" x2="60" y2="58" stroke="var(--bg)" strokeWidth="3" />
+        <circle cx="26" cy="22" r="5" fill="var(--ours)" />
+        <circle cx="46" cy="40" r="5" fill="var(--ours)" />
+        <rect x="80" y="18" width="9" height="9" rx="2" fill="#fff" />
+        <text x="96" y="46" fontSize="20" fontWeight="900" fill="var(--ball)">?</text>
+      </svg>
+    )
+  }
   if (id === 'jinkei') {
     return (
       <svg className="tv tv-court" viewBox="0 0 120 64" aria-hidden="true">

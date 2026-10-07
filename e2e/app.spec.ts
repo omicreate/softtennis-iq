@@ -14,13 +14,14 @@ test.beforeEach(async ({ page }) => {
   })
 })
 
-test('ホーム：3つの道具がアプリ内で開け、共有用の画像が設定されている', async ({ page }) => {
+test('ホーム：4つの道具がアプリ内で開け、共有用の画像が設定されている', async ({ page }) => {
   await page.goto('./')
   const cards = page.locator('.tool-card')
-  await expect(cards).toHaveCount(3)
-  await expect(cards.nth(0)).toHaveAttribute('href', '#/drill')
-  await expect(cards.nth(1)).toHaveAttribute('href', '#/jinkei')
-  await expect(cards.nth(2)).toHaveAttribute('href', '#/note')
+  await expect(cards).toHaveCount(4)
+  await expect(cards.nth(0)).toHaveAttribute('href', '#/quiz')
+  await expect(cards.nth(1)).toHaveAttribute('href', '#/drill')
+  await expect(cards.nth(2)).toHaveAttribute('href', '#/jinkei')
+  await expect(cards.nth(3)).toHaveAttribute('href', '#/note')
   await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', /ogp\.png$/)
   const ogp = await page.request.get('ogp.png')
   expect(ogp.ok()).toBe(true)
@@ -50,7 +51,7 @@ test('陣形ラボ：選手を足すと穴が増え、ホームに戻っても�
   await expectNoHorizontalScroll(page)
 
   await page.getByRole('link', { name: 'ホームへ戻る' }).click()
-  await page.locator('.tool-card').nth(1).click()
+  await page.locator('.tool-card[href="#/jinkei"]').click()
   await expect(page.locator('.hole')).toHaveCount(2)
 
   await page.goto('./#/jinkei/setup')
@@ -142,5 +143,22 @@ test('応援：ホームとドリルの結果に応援欄があり、note への
     await page.locator('.play-foot .btn').click()
   }
   await expect(page.locator('.support.compact')).toBeVisible()
+  await expectNoHorizontalScroll(page)
+})
+
+test('局面クイズ：今日の1問を解くと正解の動きと理由が出て、記録と過去の問題に残る', async ({ page }) => {
+  await page.goto('./#/quiz')
+  await expect(page.locator('.quiz-court')).toBeVisible()
+  await page.locator('.choice').first().click()
+  await expect(page.locator('.feedback')).toBeVisible()
+  await expect(page.getByRole('button', { name: '結果を友達に送る' })).toBeVisible()
+  await expect(page.locator('.quiz-streak')).toContainText('1日連続')
+  await expectNoHorizontalScroll(page)
+  await page.getByRole('link', { name: '記録' }).click()
+  await expect(page.locator('.stat-row b').first()).toHaveText('1')
+  await page.getByRole('link', { name: '過去の問題' }).click()
+  await expect(page.locator('.quiz-mark')).toHaveCount(1)
+  await page.locator('.quiz-item').last().click()
+  await expect(page.locator('.prompt')).toBeVisible()
   await expectNoHorizontalScroll(page)
 })
