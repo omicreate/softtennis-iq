@@ -50,7 +50,7 @@ Built with React + TypeScript + Vite as a PWA. Unit tests (Vitest) run on every 
 
 ## 流入計測
 
-`?src=` 付きで開いたときだけ、面の識別子とアプリ名を集計用の Google Apps Script へ1回送ります。アプリ名は旧アプリと同じ名前（ドリルなら `soft-tennis-rule-drill`）で送り、数値シートの集計を続けます。学習記録や入力内容は送りません。
+`?src=` 付きで開いたときだけ、面の識別子とアプリ名を集計用の Google Apps Script へ1回送ります。アプリ名は旧アプリと同じ名前（ドリルなら `soft-tennis-rule-drill`）で送り、数値シートの集計を続けます。学習記録や入力内容は送りません。ブラウザの「追跡しない」（Do Not Track・Global Privacy Control）がオンのときは送りません。
 
 ## 確認方法
 

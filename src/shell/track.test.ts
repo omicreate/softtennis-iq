@@ -1,12 +1,12 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { trackSourceOnce } from './track'
 
-function setup(search: string) {
+function setup(search: string, privacy: { doNotTrack?: string; globalPrivacyControl?: boolean } = {}) {
   const sent: string[] = []
   const store = new Map<string, string>()
   vi.stubGlobal('location', { search, hash: '#/drill' })
   vi.stubGlobal('sessionStorage', { getItem: (k: string) => store.get(k) ?? null, setItem: (k: string, v: string) => void store.set(k, v) })
-  vi.stubGlobal('navigator', { sendBeacon: (u: string) => (sent.push(u), true) })
+  vi.stubGlobal('navigator', { sendBeacon: (u: string) => (sent.push(u), true), ...privacy })
   return sent
 }
 
@@ -27,6 +27,14 @@ describe('流入計測', () => {
       const sent = setup(`?src=${encodeURIComponent(bad)}`)
       trackSourceOnce()
       expect(sent, bad).toHaveLength(0)
+    }
+  })
+
+  it('DNT・GPC がオンなら送らない', () => {
+    for (const privacy of [{ doNotTrack: '1' }, { globalPrivacyControl: true }]) {
+      const sent = setup('?src=ig_No59-cover', privacy)
+      trackSourceOnce()
+      expect(sent, JSON.stringify(privacy)).toHaveLength(0)
     }
   })
 })

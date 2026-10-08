@@ -1,4 +1,4 @@
-// 流入計測：?src= が付いているときだけ、面の識別子とアプリ名を1回送る（学習記録や入力内容は送らない）
+// 流入計測：?src= が付いているときだけ、面の識別子とアプリ名を1回送る（学習記録や入力内容は送らない。DNT・GPC がオンなら送らない）
 // 旧3アプリと同じ集計先・同じアプリ名で送り、数値シートの集計をそのまま続ける。
 import { parseRoute } from './route'
 import { toolById } from './tools'
@@ -11,6 +11,9 @@ export function trackSourceOnce() {
     const src = new URLSearchParams(location.search).get('src')
     // 印は英数字・ハイフン・下線だけ（40文字まで）。それ以外は送らない（集計シートへの数式の混入などを防ぐ）
     if (!src || !/^[A-Za-z0-9_-]{1,40}$/.test(src)) return
+    // ブラウザの「追跡しない」（DNT・GPC）がオンなら送らない
+    const nav = navigator as Navigator & { globalPrivacyControl?: boolean }
+    if (nav.doNotTrack === '1' || nav.globalPrivacyControl === true) return
     const app = toolById(parseRoute(location.hash)[0] ?? '')?.trackName ?? 'softtennis-iq'
     const key = `src_sent:${app}:${src}`
     if (sessionStorage.getItem(key)) return
