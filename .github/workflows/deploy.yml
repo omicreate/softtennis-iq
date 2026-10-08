@@ -23,8 +23,8 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      # Windows で作った lock には Linux 専用の任意依存が欠けることがあるため、失敗時は install で補う
-      - run: npm ci || npm install --no-audit --no-fund
+      # lock と package.json がずれていたら、公開せずにここで止める（lock は npm 10 で更新する。README 参照）
+      - run: npm ci
       # テストが通らないときは公開しない
       - run: npm test
       - run: npm run build

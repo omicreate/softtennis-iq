@@ -64,6 +64,7 @@ npm run dev
 ```
 
 - 公開（push）時は GitHub Actions が単体テストを通してからビルドする
+- 依存を足す・上げるときは `npx npm@10 install`（CI と同じ npm 10）で package-lock.json を更新する。lock がずれていると公開の CI が `npm ci` で止まる
 - 共有用の画像は `scripts/ogp.html` を直して `npm run ogp`
 - 書体（Noto Sans JP・Outfit）は @fontsource で同梱。オフラインでも同じ見た目
 
