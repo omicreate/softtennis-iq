@@ -1,8 +1,22 @@
 # ソフトテニスIQ
 
+**Soft Tennis IQ** — three tools for soft tennis players in one app:
+
+- **Rule Drill** — quizzes on the official rules, each citing the article it is based on
+- **Formation Lab** — place players on a court diagram and share the layout as a link
+- **Match Notebook** — log points courtside and see your patterns
+
+**Use it:** https://omicreate.github.io/softtennis-iq/ (Japanese, free, no sign-up, works offline).
+Built with React + TypeScript + Vite as a PWA. Unit tests (Vitest) run on every push before deploying to GitHub Pages; Playwright covers end-to-end checks.
+*Soft tennis* is a racket sport played with a soft rubber ball, born in Japan.
+
+*The rest of this README is in Japanese.*
+
+---
+
 ソフトテニスIQ（Instagram・Threads・YouTube @softtennis_iq）のアプリです。ルールドリル・陣形ラボ・試合ノートの3つの道具を、1つのアプリにまとめていきます。
 
-- 公開予定URL: https://omicreate.github.io/softtennis-iq/
+- 公開URL: https://omicreate.github.io/softtennis-iq/
 - 画面: `#/`（ホーム）・`#/drill`（ルールドリル。`/review` 振り返り・`/record` 記録）・`#/jinkei`（陣形ラボ。`/setup` 陣形・`/save` 保存・共有）
 - `#/note`（試合ノート。`/analysis` 分析・`/history` 履歴・`/menu` 試合・`/new` 新しい試合・`/edit`・`/archive` 保存済み試合・`/summary` サマリー画像）
 - 陣形ラボの共有リンクは `?layout=…#/jinkei`。`?layout=` だけで開かれたときも陣形ラボを開く
