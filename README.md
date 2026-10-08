@@ -69,6 +69,9 @@ npm run dev
 
 問題を直すときは [docs/update-rules.md](docs/update-rules.md) の手順に従います。
 
-## 権利
+## License / 権利
 
-コード・画面デザイン・文言・問題は omicreate に帰属します（All rights reserved）。
+- **Code:** MIT — see [LICENSE](LICENSE).
+- **Characters, artwork, audio, questions and other content:** © 2026 omicreate, all rights reserved — see [NOTICE.md](NOTICE.md).
+
+コードは MIT ライセンスで自由に使えます。キャラクター・絵・音声・問題などの中身は対象外です（[NOTICE.md](NOTICE.md)）。
