@@ -108,6 +108,31 @@
   color: var(--faint);
 }
 
+/* 姉妹アプリ（ミニゲーム集）。道具のカードと同じ形で、見出しだけ小さく添える */
+.sister {
+  display: grid;
+  gap: var(--s2);
+}
+.sister .eyebrow {
+  font-size: var(--fs-xs);
+}
+.sister-card h3 {
+  font-size: var(--fs-lg);
+  font-weight: 900;
+  /* 名前の途中で折り返さない（「ホークアイ先生と」の後ろだけで折り返す） */
+  word-break: keep-all;
+}
+.tv-hawk {
+  background: var(--bg);
+  display: grid;
+  place-items: center;
+}
+.tv-hawk img {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+}
+
 .home-foot {
   margin-top: auto;
   padding-top: var(--s6);

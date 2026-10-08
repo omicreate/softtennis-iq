@@ -18,6 +18,7 @@ const shell = [
   "./icon-maskable-192.png",
   "./icon-maskable-512.png",
   "./apple-touch-icon.png",
+  "./hawk-sensei.png",
   ...assets,
 ];
 

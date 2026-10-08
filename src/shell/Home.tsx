@@ -1,4 +1,5 @@
 import { ArrowUpRight, ChevronRight } from 'lucide-react'
+import { questions } from '../tools/drill/questions'
 import { loadProgress } from '../tools/drill/storage'
 import { href } from './route'
 import { Support } from './Support'
@@ -17,7 +18,7 @@ function ToolVisual({ id }: { id: ToolId }) {
             <i key={i} className={i < 6 ? 'ok' : i === 6 ? 'ng' : ''} />
           ))}
         </div>
-        <span className="num">{rate === null ? '108問' : `正答率 ${rate}%`}</span>
+        <span className="num">{rate === null ? `${questions.length}問` : `正答率 ${rate}%`}</span>
       </div>
     )
   }
@@ -57,6 +58,9 @@ function ToolVisual({ id }: { id: ToolId }) {
     </div>
   )
 }
+
+/** 姉妹アプリ：子ども・親子・新入部員向けのミニゲーム集（別のアプリ。どこから来たか分かるよう ?src= を付ける） */
+export const ASOBI_URL = 'https://omicreate.github.io/softtennis-asobi/?src=st_iq_cross'
 
 export function Home() {
   return (
@@ -99,6 +103,27 @@ export function Home() {
             )
           })}
         </ul>
+
+        <section className="sister" aria-labelledby="sister-title">
+          <h2 id="sister-title" className="eyebrow">
+            姉妹アプリ
+          </h2>
+          <a className="tool-card sister-card" href={ASOBI_URL} target="_blank" rel="noopener">
+            <div className="tv tv-hawk" aria-hidden="true">
+              <img src={`${import.meta.env.BASE_URL}hawk-sensei.png`} alt="" width="56" height="56" />
+            </div>
+            <div className="tool-text">
+              <h3>
+                ホークアイ先生と
+                <wbr />
+                あそぼ
+              </h3>
+              <p>親子や新入部員と、スマホ1台で遊べるソフトテニスのミニゲーム集。</p>
+              <span className="tool-note">別のアプリが開きます</span>
+            </div>
+            <ArrowUpRight size={20} aria-label="別のアプリで開く" />
+          </a>
+        </section>
 
         <Support />
 

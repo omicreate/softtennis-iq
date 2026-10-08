@@ -16,12 +16,18 @@ test.beforeEach(async ({ page }) => {
 
 test('ホーム：4つの道具がアプリ内で開け、共有用の画像が設定されている', async ({ page }) => {
   await page.goto('./')
-  const cards = page.locator('.tool-card')
+  const cards = page.locator('.tool-list .tool-card')
   await expect(cards).toHaveCount(4)
   await expect(cards.nth(0)).toHaveAttribute('href', '#/quiz')
   await expect(cards.nth(1)).toHaveAttribute('href', '#/drill')
   await expect(cards.nth(2)).toHaveAttribute('href', '#/jinkei')
   await expect(cards.nth(3)).toHaveAttribute('href', '#/note')
+  // 姉妹アプリ（ミニゲーム集）は別のアプリとして開き、どこから来たかの印を付ける
+  const sister = page.locator('.sister-card')
+  await expect(sister).toHaveAttribute('href', 'https://omicreate.github.io/softtennis-asobi/?src=st_iq_cross')
+  await expect(sister).toHaveAttribute('target', '_blank')
+  await expect(sister.locator('img')).toHaveJSProperty('complete', true)
+  expect(await sister.locator('img').evaluate((el) => (el as HTMLImageElement).naturalWidth)).toBeGreaterThan(0)
   await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', /ogp\.png$/)
   const ogp = await page.request.get('ogp.png')
   expect(ogp.ok()).toBe(true)
