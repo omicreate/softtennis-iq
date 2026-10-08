@@ -133,12 +133,13 @@ a.tool-card {
 }
 
 /* ブランドのボール印（縫い目のない軟式球。ゴムの光沢だけで表す） */
-.ballmark {
-  width: 22px;
-  height: 22px;
+/* ヘッダーの印：公式キャラクター「ホークアイ先生」（アプリのアイコンと同じ丸。scripts/build-icons.mjs が作る） */
+.brandmark {
+  width: 28px;
+  height: 28px;
   flex: none;
   border-radius: 50%;
-  background: radial-gradient(circle at 34% 30%, #f6ffc4 0 14%, var(--ball) 46%, #b9d22f 100%);
+  background: url('/hawk-mark.png') center / cover no-repeat;
 }
 
 /* 下部タブ */

@@ -37,7 +37,7 @@ export function Quiz({ section, id }: { section: QuizSection; id?: string }) {
           <ChevronLeft size={24} />
         </a>
         <div className="appbar-title">
-          <span className="ballmark" aria-hidden="true" />
+          <span className="brandmark" aria-hidden="true" />
           局面クイズ
         </div>
       </header>

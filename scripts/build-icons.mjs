@@ -2,6 +2,7 @@
 // 夜の紺の地に、公式キャラクター「ホークアイ先生」の丸いアイコン（SNS と同じ原画 art/hawk-icon.png）を置き、ふちをボールの黄緑にする。
 // 原画は描き直さない（本人の方針）。原画の黒い輪の内側（1000px 角の 70〜930）だけを丸く切り抜いて使う。
 //   public/icon-192.png・icon-512.png・apple-touch-icon.png・icon-maskable-*.png、public/icon.svg（タブ用。PNG を埋めこんだ SVG）
+//   public/hawk-mark.png（各画面のヘッダーの印。紺の地なしの丸だけ）
 import { chromium } from '@playwright/test'
 import { readFileSync, writeFileSync } from 'node:fs'
 
@@ -10,19 +11,24 @@ const art = `data:image/png;base64,${readFileSync(path('art/hawk-icon.png')).toS
 const NAVY = '#0e1a2b'
 const BALL = '#d8f04a'
 
-/** size 角のアイコンの HTML。maskable は角丸なしの全面塗り（丸く切られても顔が残るよう小さめに置く） */
-function html(size, maskable) {
-  const d = Math.round(size * (maskable ? 0.7 : 0.8))   // 丸の直径（黄緑のふちを含む）
+/** 黄緑のふちの丸（直径 d）の中に原画 */
+function circle(d, size) {
   const ring = Math.max(2, Math.round(size * 0.028))
   const inner = d - ring * 2
   const k = inner / 860
-  return `<style>*{margin:0}</style>
-  <div style="width:${size}px;height:${size}px;background:${NAVY};border-radius:${maskable ? 0 : Math.round(size * 0.22)}px;display:grid;place-items:center">
-    <div style="width:${d}px;height:${d}px;border-radius:50%;background:${BALL};display:grid;place-items:center">
+  return `<div style="width:${d}px;height:${d}px;border-radius:50%;background:${BALL};display:grid;place-items:center">
       <div style="width:${inner}px;height:${inner}px;border-radius:50%;overflow:hidden;background:#fff">
         <img src="${art}" style="display:block;width:${1000 * k}px;height:${1000 * k}px;margin:${-70 * k}px 0 0 ${-70 * k}px">
       </div>
-    </div>
+    </div>`
+}
+
+/** size 角のアイコンの HTML。maskable は角丸なしの全面塗り（丸く切られても顔が残るよう小さめに置く） */
+function html(size, maskable) {
+  const d = Math.round(size * (maskable ? 0.7 : 0.8))   // 丸の直径（黄緑のふちを含む）
+  return `<style>*{margin:0}</style>
+  <div style="width:${size}px;height:${size}px;background:${NAVY};border-radius:${maskable ? 0 : Math.round(size * 0.22)}px;display:grid;place-items:center">
+    ${circle(d, size)}
   </div>`
 }
 
@@ -46,5 +52,10 @@ await page.setContent(html(256, false))
 await page.waitForFunction(() => [...document.images].every((i) => i.complete))
 const png = (await page.screenshot({ omitBackground: true })).toString('base64')
 writeFileSync(path('public/icon.svg'), `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><image width="256" height="256" href="data:image/png;base64,${png}"/></svg>\n`)
+// ヘッダーの印：丸だけ（外は透明）。画面では 28px で出すので 3 倍の 96px で作る。小さいのでふちは太めに
+await page.setViewportSize({ width: 96, height: 96 })
+await page.setContent(`<style>*{margin:0}</style>${circle(96, 150)}`)
+await page.waitForFunction(() => [...document.images].every((i) => i.complete))
+await page.screenshot({ path: path('public/hawk-mark.png'), omitBackground: true })
 await browser.close()
 console.log('icons written')

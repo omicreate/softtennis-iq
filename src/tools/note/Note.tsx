@@ -277,7 +277,7 @@ export function Note({ section }: { section: NoteSection }) {
           <ChevronLeft size={24} />
         </a>
         <div className="appbar-title">
-          <span className="ballmark" aria-hidden="true" />
+          <span className="brandmark" aria-hidden="true" />
           試合ノート
         </div>
         {!['record', 'analysis', 'history'].includes(section) && <div className="appbar-end note-status num">{E.getCompactMatchStatus()}</div>}

@@ -67,7 +67,7 @@ export function Home() {
     <div className="screen home">
       <header className="appbar">
         <div className="appbar-title">
-          <span className="ballmark" aria-hidden="true" />
+          <span className="brandmark" aria-hidden="true" />
           ソフトテニスIQ
         </div>
       </header>

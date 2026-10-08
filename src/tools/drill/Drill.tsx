@@ -87,7 +87,7 @@ export function Drill({ section }: { section: Section }) {
           <ChevronLeft size={24} />
         </a>
         <div className="appbar-title">
-          <span className="ballmark" aria-hidden="true" />
+          <span className="brandmark" aria-hidden="true" />
           ルールドリル
         </div>
         {section === 'play' && session.index < session.questions.length && (

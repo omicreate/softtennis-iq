@@ -330,7 +330,7 @@ export function Jinkei({ section }: { section: JinkeiSection }) {
           <ChevronLeft size={24} />
         </a>
         <div className="appbar-title">
-          <span className="ballmark" aria-hidden="true" />
+          <span className="brandmark" aria-hidden="true" />
           陣形ラボ
         </div>
         {section === 'court' && (
