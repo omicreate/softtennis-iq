@@ -99,6 +99,8 @@ export const SOFT_TENNIS_CONFIG = {
   defaultState: {
     archiveId: "",
     isPracticeMatch: false,
+    /** 「試合を始める」を押したか（押す前はスタート画面を出す） */
+    started: false,
     matchType: "doubles",
     teams: { A: "自チーム", B: "相手ペア" },
     players: {

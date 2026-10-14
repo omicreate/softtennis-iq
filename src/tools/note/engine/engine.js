@@ -153,6 +153,8 @@ function normalizeState(raw) {
 
   saved.archiveId = typeof saved.archiveId === "string" ? saved.archiveId : "";
   saved.isPracticeMatch = saved.isPracticeMatch === true;
+  // 旧データに started はない。1点でも記録がある試合は始めたものとみなす
+  saved.started = saved.started === true || matchHasRecordableData(saved);
   saved.recordMode = ["simple", "detail"].includes(saved.recordMode) ? saved.recordMode : defaultState.recordMode;
   saved.selectedOutcome = outcomeAliases[saved.selectedOutcome] || saved.selectedOutcome || defaultState.selectedOutcome;
   saved.selectedCourse = courseAliases[saved.selectedCourse] || saved.selectedCourse || defaultState.selectedCourse;
@@ -2917,6 +2919,7 @@ function applyMatchForm(form, { resetMatch }) {
     state.gamePoints = { A: 0, B: 0 };
     state.games = { A: 0, B: 0 };
     state.finished = false;
+    state.started = true;
     state.server = form.server === "B" ? "B" : "A";
   }
   state.matchFormat = form.matchFormat || "7";
@@ -2947,6 +2950,25 @@ function applyMatchForm(form, { resetMatch }) {
 export function startNewMatch(form) {
   archiveCurrentMatch("new-match");
   applyMatchForm(form, { resetMatch: true });
+}
+
+/**
+ * スタート画面の「試合を始める」。何も記録していない試合ならそのまま始め、
+ * 終わった試合・記録のある試合・サンプルなら保存済み試合に残して新しい試合にする。
+ * サンプルのチーム名や大会情報は引き継がない。
+ */
+export function startQuickMatch() {
+  if (state.isPracticeMatch || matchHasRecordableData(state)) {
+    const form = state.isPracticeMatch
+      ? { matchType: "doubles", matchFormat: "7", server: "A", date: new Date().toISOString().slice(0, 10), timeOfDay: getCurrentTimeOfDay() }
+      : matchFormDefaults("new");
+    startNewMatch(form);
+    return;
+  }
+  state.started = true;
+  if (!state.matchInfo.date) state.matchInfo.date = new Date().toISOString().slice(0, 10);
+  if (!state.matchInfo.startTime) state.matchInfo.startTime = getCurrentClockTime();
+  saveState();
 }
 
 export function saveMatchInfo(form) {

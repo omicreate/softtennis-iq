@@ -29,6 +29,7 @@ export interface NotePoint {
 export interface NoteState {
   archiveId: string
   isPracticeMatch: boolean
+  started: boolean
   matchType: 'doubles' | 'singles'
   teams: { A: string; B: string }
   players: { AFront: string; ARear: string; BFront: string; BRear: string }
@@ -81,6 +82,7 @@ export function undoPoint(): NotePoint | undefined
 export function saveAnalysisMemo(): any
 export function matchFormDefaults(mode?: 'new' | 'edit'): MatchForm
 export function startNewMatch(form: MatchForm): void
+export function startQuickMatch(): void
 export function saveMatchInfo(form: MatchForm): void
 export function loadSampleMatch(): void
 export function editPoint(index: number, patch: Record<string, string>): void

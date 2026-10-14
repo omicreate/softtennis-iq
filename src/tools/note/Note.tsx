@@ -1,7 +1,7 @@
 // 試合ノート（旧 soft-tennis-note を新デザインに移植）
 // 屋外の日なたでも読めるよう明るい「日なたモード」。スコアだけナイター色で締める。
 // 記録は「誰のプレー」「ショット」を選んで「取った／取られた」を押すだけ。保存されるデータの形は旧アプリと同じ。
-import { BarChart3, ChevronLeft, ListOrdered, Menu, PenLine, X } from 'lucide-react'
+import { BarChart3, ChevronLeft, ListOrdered, Menu, PenLine, Plus, X } from 'lucide-react'
 import { useState } from 'react'
 import { href } from '../../shell/route'
 import * as E from './engine/engine.js'
@@ -98,6 +98,44 @@ function FirstGuide({ onClose }: { onClose: () => void }) {
   )
 }
 
+/** 記録する試合がまだないとき（初めて・サンプル表示中）はスタート画面。1タップで記録を始められる */
+export const needsStart = () => {
+  const s = E.getState()
+  return s.isPracticeMatch || (!s.started && s.points.length === 0)
+}
+
+function StartScreen({ act }: { act: <T>(fn: () => T) => T }) {
+  const s = E.getState()
+  const loadSample = () => {
+    act(() => E.loadSampleMatch())
+    location.hash = href('note', 'analysis')
+  }
+  return (
+    <main className="screen-body note-start">
+      {s.isPracticeMatch && (
+        <p className="start-sample">
+          いま開いているのはサンプル試合です（見るだけ）。<a href={href('note', 'analysis')}>サンプルの分析を見る</a>
+        </p>
+      )}
+      <section className="start-hero">
+        <h1>試合を外から記録する</h1>
+        <p>1点ごとに「取った／取られた」を押すだけ。チーム名や大会名は、あとから入れられます。</p>
+        <button type="button" className="btn btn-primary btn-block start-go" onClick={() => act(() => E.startQuickMatch())}>
+          試合を始める
+        </button>
+        <a className="btn btn-ghost btn-block" href={href('note', 'new')}>
+          チーム名を入れてから始める
+        </a>
+      </section>
+      {!s.isPracticeMatch && (
+        <button type="button" className="start-link" onClick={loadSample}>
+          記録済みのサンプルで、分析の見え方を試す
+        </button>
+      )}
+    </main>
+  )
+}
+
 function Record({ act }: { act: <T>(fn: () => T) => T }) {
   const [showGuide, setShowGuide] = useState(() => !guideSeen())
   const closeGuide = () => {
@@ -142,6 +180,9 @@ function Record({ act }: { act: <T>(fn: () => T) => T }) {
             <a className="btn btn-ghost btn-block" href={href('note', 'summary')}>
               サマリー画像を作る
             </a>
+            <button type="button" className="btn btn-ghost btn-block" onClick={() => act(() => E.startQuickMatch())}>
+              新しい試合を始める
+            </button>
             <button type="button" className="btn btn-quiet" onClick={() => act(() => E.undoPoint())}>
               最後のポイントを取り消す
             </button>
@@ -154,6 +195,14 @@ function Record({ act }: { act: <T>(fn: () => T) => T }) {
   return (
     <main className="screen-body note-record">
       {showGuide && <FirstGuide onClose={closeGuide} />}
+      {s.points.length > 0 && (
+        <div className="rec-match">
+          <a className="chip" href={href('note', 'new')}>
+            <Plus size={16} aria-hidden="true" />
+            新しい試合
+          </a>
+        </div>
+      )}
       {s.points.length === 0 && (
         <div className="start-card">
           <p>
@@ -268,6 +317,7 @@ function Record({ act }: { act: <T>(fn: () => T) => T }) {
 export function Note({ section }: { section: NoteSection }) {
   const { act, version } = useNote()
   const tab = ['analysis', 'history'].includes(section) ? section : section === 'record' ? 'record' : 'menu'
+  const start = needsStart()
 
   return (
     <div className="screen note theme-sun" data-version={version}>
@@ -283,10 +333,10 @@ export function Note({ section }: { section: NoteSection }) {
         {!['record', 'analysis', 'history'].includes(section) && <div className="appbar-end note-status num">{E.getCompactMatchStatus()}</div>}
       </header>
 
-      {(section === 'record' || section === 'analysis' || section === 'history') && <Scoreboard />}
+      {((section === 'record' && !start) || section === 'analysis' || section === 'history') && <Scoreboard />}
       </div>
 
-      {section === 'record' && <Record act={act} />}
+      {section === 'record' && (start ? <StartScreen act={act} /> : <Record act={act} />)}
       {section === 'analysis' && <NoteAnalysis act={act} />}
       {section === 'history' && <NoteHistory act={act} />}
       {['menu', 'new', 'edit', 'archive', 'summary'].includes(section) && <NoteMenu section={section} act={act} />}

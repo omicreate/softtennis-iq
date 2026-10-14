@@ -78,8 +78,12 @@ test('陣形ラボ：共有リンクで同じ配置が開く', async ({ page, co
   await expect(other.locator('.hole')).toHaveCount(1)
 })
 
-test('試合ノート：はじめての案内、記録、取り消し、分析、サマリー画像', async ({ page }) => {
+test('試合ノート：スタート画面、はじめての案内、記録、取り消し、分析、サマリー画像', async ({ page }) => {
   await page.goto('./#/note')
+  await expect(page.locator('.note-start')).toBeVisible()
+  await expect(page.locator('.scoreboard')).toHaveCount(0)
+  await expectNoHorizontalScroll(page)
+  await page.getByRole('button', { name: '試合を始める' }).click()
   await expect(page.locator('.guide')).toBeVisible()
   await page.getByRole('button', { name: 'わかった' }).click()
   await expect(page.locator('.guide')).toHaveCount(0)
@@ -94,6 +98,7 @@ test('試合ノート：はじめての案内、記録、取り消し、分析�
   await page.getByRole('button', { name: '取り消す' }).click()
   await expect(page.locator('.sb-B .sb-points')).toHaveText('0')
   await expectNoHorizontalScroll(page)
+  await expect(page.locator('.rec-match').getByRole('link', { name: '新しい試合' })).toHaveAttribute('href', '#/note/new')
 
   await page.getByRole('link', { name: '分析' }).click()
   await expect(page.locator('.metric').nth(1)).toContainText('1本')
@@ -103,6 +108,19 @@ test('試合ノート：はじめての案内、記録、取り消し、分析�
   await page.reload()
   await page.goto('./#/note')
   await expect(page.locator('.guide')).toHaveCount(0)
+  await expect(page.locator('.note-start')).toHaveCount(0)
+})
+
+test('試合ノート：サンプルは見るだけで、記録タブではスタート画面に戻る', async ({ page }) => {
+  await page.goto('./#/note')
+  await page.getByRole('button', { name: '記録済みのサンプルで、分析の見え方を試す' }).click()
+  await expect(page).toHaveURL(/#\/note\/analysis$/)
+  await page.getByRole('link', { name: '記録' }).click()
+  await expect(page.locator('.start-sample')).toBeVisible()
+  await expect(page.locator('.big-win')).toHaveCount(0)
+  await page.getByRole('button', { name: '試合を始める' }).click()
+  await expect(page.locator('.sb-A .sb-name')).toContainText('自チーム')
+  await expect(page.locator('.sb-A .sb-points')).toHaveText('0')
 })
 
 test('試合ノート：旧アプリで保存した試合をそのまま開ける', async ({ page }) => {

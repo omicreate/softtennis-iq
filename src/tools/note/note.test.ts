@@ -273,4 +273,47 @@ describe('記録の流れ', () => {
     const s = E.setState({ ...structuredClone(E.defaultState), points: [{ winner: 'A', outcome: 'ダブルフォルト', scoreBefore: { games: { A: 0, B: 0 }, points: { A: 0, B: 0 } } }] })
     expect(s.points[0].outcome).toBe('ダブルフォールト')
   })
+
+  it('スタート画面：何も記録していない試合は「始める」で同じ試合のまま始まる', () => {
+    E.setState(structuredClone(E.defaultState))
+    expect(E.getState().started).toBe(false)
+    const before = E.loadArchivedMatches().length
+    E.startQuickMatch()
+    expect(E.getState().started).toBe(true)
+    expect(E.getState().points).toHaveLength(0)
+    expect(E.loadArchivedMatches().length).toBe(before)
+  })
+
+  it('スタート画面：サンプル表示中に始めると、サンプルの名前を引き継がない新しい試合になる', () => {
+    E.setState(structuredClone(E.defaultState))
+    E.loadSampleMatch()
+    expect(E.getState().isPracticeMatch).toBe(true)
+    E.startQuickMatch()
+    const s = E.getState()
+    expect(s.isPracticeMatch).toBe(false)
+    expect(s.started).toBe(true)
+    expect(s.points).toHaveLength(0)
+    expect(s.teams).toEqual(E.defaultState.teams)
+    expect(s.matchInfo.tournament).toBe('')
+  })
+
+  it('スタート画面：終わった試合から始めると、名前は引き継いで記録は空になる', () => {
+    fresh()
+    E.saveMatchInfo({ ...E.matchFormDefaults('edit'), teamA: '青葉中', teamB: '白浜中' })
+    E.recordPoint('A')
+    E.startQuickMatch()
+    expect(E.getState().points).toHaveLength(0)
+    expect(E.getState().teams.A).toBe('青葉中')
+  })
+
+  it('started を持たない旧データでも、記録がある試合は始めたものとして開く', () => {
+    const legacy = structuredClone(E.defaultState) as Record<string, unknown>
+    delete legacy.started
+    expect(E.setState(legacy).started).toBe(false)
+    fresh()
+    E.recordPoint('A')
+    const withPoint = structuredClone(E.getState()) as Record<string, unknown>
+    delete withPoint.started
+    expect(E.setState(withPoint).started).toBe(true)
+  })
 })
