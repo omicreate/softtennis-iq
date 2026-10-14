@@ -1,7 +1,8 @@
 # ソフトテニスIQ
 
-**Soft Tennis IQ** — three tools for soft tennis players in one app:
+**Soft Tennis IQ** — four tools for soft tennis players in one app:
 
+- **Situation Quiz** — one tactics question a day from our short videos (3 choices), with the right movement animated and explained
 - **Rule Drill** — quizzes on the official rules, each citing the article it is based on
 - **Formation Lab** — place players on a court diagram and share the layout as a link
 - **Match Notebook** — log points courtside and see your patterns
@@ -14,10 +15,10 @@ Built with React + TypeScript + Vite as a PWA. Unit tests (Vitest) run on every 
 
 ---
 
-ソフトテニスIQ（Instagram・Threads・YouTube @softtennis_iq）のアプリです。ルールドリル・陣形ラボ・試合ノートの3つの道具を、1つのアプリにまとめていきます。
+ソフトテニスIQ（Instagram・Threads・YouTube @softtennis_iq）のアプリです。局面クイズ・ルールドリル・陣形ラボ・試合ノートの4つの道具を、1つのアプリにまとめています。
 
 - 公開URL: https://omicreate.github.io/softtennis-iq/
-- 画面: `#/`（ホーム）・`#/drill`（ルールドリル。`/review` 振り返り・`/record` 記録）・`#/jinkei`（陣形ラボ。`/setup` 陣形・`/save` 保存・共有）
+- 画面: `#/`（ホーム）・`#/quiz`（局面クイズ。`/archive` 過去の問題・`/record` 記録）・`#/drill`（ルールドリル。`/review` 振り返り・`/record` 記録）・`#/jinkei`（陣形ラボ。`/setup` 陣形・`/save` 保存・共有）
 - `#/note`（試合ノート。`/analysis` 分析・`/history` 履歴・`/menu` 試合・`/new` 新しい試合・`/edit`・`/archive` 保存済み試合・`/summary` サマリー画像）
 - 陣形ラボの共有リンクは `?layout=…#/jinkei`。`?layout=` だけで開かれたときも陣形ラボを開く
 
@@ -25,11 +26,12 @@ Built with React + TypeScript + Vite as a PWA. Unit tests (Vitest) run on every 
 
 | 道具 | 状況 | 旧アプリ |
 |---|---|---|
+| 局面クイズ | このアプリで新しく追加（旧アプリなし） | — |
 | ルールドリル | このアプリで動く（新デザイン） | https://omicreate.github.io/soft-tennis-rule-drill/ （転送） |
 | 陣形ラボ | このアプリで動く（新デザイン、2026-10-03） | https://omicreate.github.io/jinkei-lab/ （転送） |
 | 試合ノート | このアプリで動く（新デザイン、2026-10-03） | https://omicreate.github.io/soft-tennis-note/ （転送） |
 
-旧アプリと同じドメイン（omicreate.github.io）なので、端末内の記録は同じ保存キーでそのまま引き継ぎます。ルールドリルは `soft-tennis-rule-drill-progress-v1`、陣形ラボは `sti-court-slots`（配置メモリ）・`sti-court-junior`、試合ノートは `soft-tennis-logger-state-v1`（今の試合）・`soft-tennis-logger-archive-v1`（保存済み試合）。
+旧アプリと同じドメイン（omicreate.github.io）なので、端末内の記録は同じ保存キーでそのまま引き継ぎます。ルールドリルは `soft-tennis-rule-drill-progress-v1`、陣形ラボは `sti-court-slots`（配置メモリ）・`sti-court-junior`、試合ノートは `soft-tennis-logger-state-v1`（今の試合）・`soft-tennis-logger-archive-v1`（保存済み試合）。局面クイズは新しく `stiq-quiz-v1` に保存します。
 
 ## デザイン
 
@@ -44,6 +46,7 @@ Built with React + TypeScript + Vite as a PWA. Unit tests (Vitest) run on every 
 - `src/shell/` ホーム・画面の切り替え（ハッシュ）・流入計測
 - `src/tools/jinkei/` 陣形ラボ（`geometry.ts` 座標・距離・到達目安、`presets.ts` 監修済み基準配置、`slots.ts` 配置メモリ、`layoutShare.ts` 共有リンク、`CourtCanvas.tsx` コート描画、`Jinkei.tsx` 画面）
 - `src/tools/note/` 試合ノート。`engine/` は旧アプリの計算・保存・CSV・バックアップ・サマリー画像をほぼそのまま移したJS（`engine.d.ts` で型付け）。旧アプリの匿名化した実試合データで、分析値が一致することをテストしている（`note.test.ts`）
+- `src/tools/quiz/` 局面クイズ（`questions.json` 動画を公開済みの問題だけを台本から書き出したもの、`logic.ts` 今日の1問と記録、`QuizCourt.tsx` 正解の動きの描画、`Quiz.tsx` 画面）
 - `src/tools/drill/` ルールドリル（`questions.ts` 問題、`sources.ts` 出典、`logic.ts` 出題と記録、`Drill.tsx` 画面）
 - `public/sw.js` オフライン対応。キャッシュ一覧はビルド時に `scripts/build-sw.mjs` が埋め込む。キャッシュの掃除は自分の接頭辞（`softtennis-iq-`）だけ
 - アイコンは `public/icon.svg` を直して `npm run icons`
@@ -56,7 +59,7 @@ Built with React + TypeScript + Vite as a PWA. Unit tests (Vitest) run on every 
 
 ```sh
 npm install
-npm test            # 単体テスト（ルール問題・陣形計算・試合ノートの回帰・公開情報チェック）
+npm test            # 単体テスト（局面クイズの問題データ・ルール問題・陣形計算・試合ノートの回帰・公開情報チェック）
 npm run build
 npm run test:e2e    # スマホ幅での操作テスト（ビルド後。初回は npx playwright install chromium）
 npm run test:all    # 上の3つをまとめて
