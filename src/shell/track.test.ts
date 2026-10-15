@@ -1,9 +1,10 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { trackSourceOnce } from './track'
 
-function setup(search: string, privacy: { doNotTrack?: string; globalPrivacyControl?: boolean } = {}) {
+function setup(search: string, privacy: { doNotTrack?: string; globalPrivacyControl?: boolean } = {}, local: Record<string, string> = {}) {
   const sent: string[] = []
   const store = new Map<string, string>()
+  vi.stubGlobal('localStorage', { getItem: (k: string) => local[k] ?? null })
   vi.stubGlobal('location', { search, hash: '#/drill' })
   vi.stubGlobal('sessionStorage', { getItem: (k: string) => store.get(k) ?? null, setItem: (k: string, v: string) => void store.set(k, v) })
   vi.stubGlobal('navigator', { sendBeacon: (u: string) => (sent.push(u), true), ...privacy })
@@ -36,5 +37,11 @@ describe('流入計測', () => {
       trackSourceOnce()
       expect(sent, JSON.stringify(privacy)).toHaveLength(0)
     }
+  })
+
+  it('「送らない」を選んだ端末からは送らない', () => {
+    const sent = setup('?src=ig_No59-cover', {}, { 'stiq-track-off': '1' })
+    trackSourceOnce()
+    expect(sent).toHaveLength(0)
   })
 })
