@@ -8,6 +8,10 @@ async function expectNoHorizontalScroll(page: Page) {
 }
 
 test.beforeEach(async ({ page }) => {
+  // はじめての計測のお知らせは、専用のテスト以外では閉じた状態にしておく（ほかの操作の邪魔をしないように）
+  await page.addInitScript(() => {
+    if (!location.hash.includes('notice-test')) localStorage.setItem('stiq-privacy-seen', '1')
+  })
   // 書体は同梱。Google Fonts を読みに行っていないことも確かめる
   page.on('request', (req) => {
     expect(req.url()).not.toContain('fonts.googleapis.com')
@@ -196,4 +200,16 @@ test('プライバシーと計測：ホームから開け、「送らない」�
   await page.reload()
   await expect(page.getByRole('radio', { name: '送らない' })).toHaveAttribute('aria-checked', 'true')
   await expectNoHorizontalScroll(page)
+})
+
+test('計測のお知らせ：はじめてだけ出て、閉じると次から出ない', async ({ page }) => {
+  await page.goto('./#notice-test')
+  const notice = page.getByRole('complementary', { name: '計測のお知らせ' })
+  await expect(notice).toBeVisible()
+  await expect(notice.getByRole('link', { name: '詳しく・送らない' })).toHaveAttribute('href', '#/privacy')
+  await expectNoHorizontalScroll(page)
+  await notice.getByRole('button', { name: 'お知らせを閉じる' }).click()
+  await expect(notice).toHaveCount(0)
+  await page.reload()
+  await expect(page.getByRole('complementary', { name: '計測のお知らせ' })).toHaveCount(0)
 })
