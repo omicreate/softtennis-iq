@@ -30,6 +30,11 @@ describe('局面クイズの問題データ', () => {
     }
   })
 
+  it('出典名（JSTA・手引き・マニュアル等）が画面の文に入っていない', () => {
+    const text = JSON.stringify(data)
+    expect(/JSTA|連盟|指導資料|手引き|マニュアル|資料|指導者|コーチ|研究|論文|合宿|報告され|解説でも|紹介されて/.test(text)).toBe(false)
+  })
+
   it('ナレーション・根拠・内部の制作情報は入っていない', () => {
     const text = JSON.stringify(data)
     for (const key of ['narration', 'evidence', 'status', 'hook', 'pinned_comment']) {
