@@ -1,4 +1,5 @@
 import { Home } from './shell/Home'
+import { Privacy } from './shell/Privacy'
 import { useRoute } from './shell/route'
 import { Drill } from './tools/drill/Drill'
 import { Jinkei } from './tools/jinkei/Jinkei'
@@ -11,6 +12,8 @@ const openedWithLayout = typeof window !== 'undefined' && new URLSearchParams(wi
 
 export default function App() {
   const [tool, section, sub] = useRoute()
+
+  if (tool === 'privacy') return <Privacy />
 
   if (tool === 'quiz') {
     const s = section === 'archive' || section === 'record' ? section : 'today'

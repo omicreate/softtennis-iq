@@ -186,3 +186,14 @@ test('局面クイズ：今日の1問を解くと正解の動きと理由が出�
   await expect(page.locator('.prompt')).toBeVisible()
   await expectNoHorizontalScroll(page)
 })
+
+test('プライバシーと計測：ホームから開け、「送らない」を選ぶと残る', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('link', { name: 'プライバシーと計測' }).click()
+  await expect(page.getByRole('heading', { name: 'このアプリが数えること' })).toBeVisible()
+  await page.getByRole('radio', { name: '送らない' }).click()
+  await expect(page.getByRole('radio', { name: '送らない' })).toHaveAttribute('aria-checked', 'true')
+  await page.reload()
+  await expect(page.getByRole('radio', { name: '送らない' })).toHaveAttribute('aria-checked', 'true')
+  await expectNoHorizontalScroll(page)
+})

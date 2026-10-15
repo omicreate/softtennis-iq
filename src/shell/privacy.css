@@ -1,0 +1,32 @@
+.privacy {
+  display: grid;
+  gap: var(--s5);
+}
+.privacy section {
+  display: grid;
+  gap: var(--s2);
+}
+.privacy p,
+.privacy ul {
+  margin: 0;
+  line-height: 1.7;
+}
+.privacy ul {
+  padding-left: 1.2em;
+}
+.privacy-choice {
+  display: flex;
+  gap: var(--s2);
+}
+.privacy-chip {
+  min-height: var(--tap);
+  padding: 0 var(--s5);
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  color: var(--mute);
+  font-weight: 700;
+}
+.privacy-chip[aria-checked='true'] {
+  background: var(--ball);
+  color: var(--on-accent);
+}
