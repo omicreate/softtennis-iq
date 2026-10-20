@@ -1,4 +1,6 @@
 import { Home } from './shell/Home'
+import { Privacy } from './shell/Privacy'
+import { PrivacyNotice } from './shell/PrivacyNotice'
 import { useRoute } from './shell/route'
 import { Drill } from './tools/drill/Drill'
 import { Jinkei } from './tools/jinkei/Jinkei'
@@ -10,7 +12,19 @@ import type { NoteSection } from './tools/note/Note'
 const openedWithLayout = typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('layout')
 
 export default function App() {
-  const [tool, section, sub] = useRoute()
+  const route = useRoute()
+  return (
+    <>
+      <Page route={route} />
+      <PrivacyNotice hidden={route[0] === 'privacy'} />
+    </>
+  )
+}
+
+function Page({ route }: { route: string[] }) {
+  const [tool, section, sub] = route
+
+  if (tool === 'privacy') return <Privacy />
 
   if (tool === 'quiz') {
     const s = section === 'archive' || section === 'record' ? section : 'today'
