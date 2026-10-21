@@ -2,6 +2,7 @@ import { ChevronLeft, RotateCcw, Share2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { href } from '../../shell/route'
 import { Support } from '../../shell/Support'
+import { countEvent } from '../../shell/track'
 import { AXES, AXIS_INFO, PAIR_NOTE, QUESTIONS, TIP, TYPES } from './data'
 import type { Axis } from './data'
 import { isTypeKey, matchOf, plainName, scoreOf } from './logic'
@@ -50,7 +51,14 @@ function Diagnosis() {
   const last = loadLast()
 
   useEffect(() => {
-    if (result) saveLast(result.key)
+    countEvent('softtennis-type', 'open')
+  }, [])
+
+  useEffect(() => {
+    if (result) {
+      saveLast(result.key)
+      countEvent('softtennis-type', 'finish')
+    }
   }, [result])
 
   if (result) return <Result r={result} onRetry={() => (setResult(null), setPicks([]))} />
@@ -74,7 +82,7 @@ function Diagnosis() {
             前回の結果：{plainName(last)}
           </a>
         )}
-        <p className="type-note">遊びの診断です。実力や性格を測るものではありません。答えはどこにも送りません。</p>
+        <p className="type-note">遊びの診断です。実力や性格を測るものではありません。答えと結果はどこにも送りません（数えるのは回数だけ）。</p>
       </main>
     )
   }
@@ -214,6 +222,7 @@ function TypeView({ k }: { k: string }) {
 function ShareType({ k }: { k: string }) {
   const [msg, setMsg] = useState('')
   const share = async () => {
+    countEvent('softtennis-type', 'share')
     const url = `${location.origin}${location.pathname}?src=type_share#/type/t/${k}`
     const text = `ソフトテニス タイプ診断\n私は「${plainName(k)}」タイプ\n${TYPES[k].catch}\nあなたは？ #ソフトテニス`
     try {

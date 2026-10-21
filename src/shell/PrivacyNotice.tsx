@@ -28,7 +28,7 @@ export function PrivacyNotice({ hidden }: { hidden?: boolean }) {
   return (
     <aside className="privacy-notice" aria-label="計測のお知らせ">
       <p>
-        このアプリは、リンクから開いた回数だけを数えています。
+        このアプリは、リンクから開いた回数と、診断を使った回数だけを数えています。
         <a href={href('privacy')} onClick={close}>
           詳しく・送らない
         </a>
