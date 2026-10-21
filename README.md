@@ -56,6 +56,8 @@ Built with React + TypeScript + Vite as a PWA. Unit tests (Vitest) run on every 
 
 `?src=` 付きで開いたときだけ、面の識別子とアプリ名を集計用の Google Apps Script へ1回送ります。アプリ名は旧アプリと同じ名前（ドリルなら `soft-tennis-rule-drill`）で送り、数値シートの集計を続けます。学習記録や入力内容は送りません。ブラウザの「追跡しない」（Do Not Track・Global Privacy Control）がオンのときは送りません。
 
+タイプ診断だけは、開いた（`open`・同じタブで1回）・12問答え終えた（`finish`）・結果を共有した（`share`）の回数を、`app=softtennis-type&ev=…&v=…` の形で同じ受け口へ送ります（`src/shell/track.ts` の `countEvent`）。答え・結果のタイプ・リンクの印は送りません。「送らない」を選んだとき・追跡しない設定のとき・開発中は送りません。
+
 ## 確認方法
 
 ```sh
