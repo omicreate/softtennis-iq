@@ -6,6 +6,7 @@ import { Drill } from './tools/drill/Drill'
 import { Jinkei } from './tools/jinkei/Jinkei'
 import { Note } from './tools/note/Note'
 import { Quiz } from './tools/quiz/Quiz'
+import { Type } from './tools/type/Type'
 import type { NoteSection } from './tools/note/Note'
 
 // 共有リンク（?layout=）だけで開かれたときは陣形ラボを開く（旧 jinkei-lab の共有リンクの転送先）
@@ -29,6 +30,10 @@ function Page({ route }: { route: string[] }) {
   if (tool === 'quiz') {
     const s = section === 'archive' || section === 'record' ? section : 'today'
     return <Quiz section={s} id={s === 'archive' ? sub : undefined} />
+  }
+
+  if (tool === 'type') {
+    return <Type view={section === 't' ? sub : undefined} />
   }
 
   if (tool === 'drill') {

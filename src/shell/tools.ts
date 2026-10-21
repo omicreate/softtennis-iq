@@ -1,4 +1,4 @@
-export type ToolId = 'quiz' | 'drill' | 'jinkei' | 'note'
+export type ToolId = 'type' | 'quiz' | 'drill' | 'jinkei' | 'note'
 
 export interface ToolInfo {
   id: ToolId
@@ -12,6 +12,14 @@ export interface ToolInfo {
 }
 
 export const tools: ToolInfo[] = [
+  {
+    id: 'type',
+    name: 'タイプ診断',
+    lead: '12問で、あなたのプレースタイルを30タイプから。相性のいいペアも',
+    status: 'ready',
+    legacyUrl: '',
+    trackName: 'softtennis-type',
+  },
   {
     id: 'quiz',
     name: '局面クイズ',

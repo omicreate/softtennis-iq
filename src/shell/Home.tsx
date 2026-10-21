@@ -22,6 +22,14 @@ function ToolVisual({ id }: { id: ToolId }) {
       </div>
     )
   }
+  if (id === 'type') {
+    return (
+      <div className="tv tv-type" aria-hidden="true">
+        <b className="num">30</b>
+        <span>タイプ</span>
+      </div>
+    )
+  }
   if (id === 'quiz') {
     return (
       <svg className="tv tv-court" viewBox="0 0 120 64" aria-hidden="true">

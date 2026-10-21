@@ -18,14 +18,15 @@ test.beforeEach(async ({ page }) => {
   })
 })
 
-test('ホーム：4つの道具がアプリ内で開け、共有用の画像が設定されている', async ({ page }) => {
+test('ホーム：5つの道具がアプリ内で開け、共有用の画像が設定されている', async ({ page }) => {
   await page.goto('./')
   const cards = page.locator('.tool-list .tool-card')
-  await expect(cards).toHaveCount(4)
-  await expect(cards.nth(0)).toHaveAttribute('href', '#/quiz')
-  await expect(cards.nth(1)).toHaveAttribute('href', '#/drill')
-  await expect(cards.nth(2)).toHaveAttribute('href', '#/jinkei')
-  await expect(cards.nth(3)).toHaveAttribute('href', '#/note')
+  await expect(cards).toHaveCount(5)
+  await expect(cards.nth(0)).toHaveAttribute('href', '#/type')
+  await expect(cards.nth(1)).toHaveAttribute('href', '#/quiz')
+  await expect(cards.nth(2)).toHaveAttribute('href', '#/drill')
+  await expect(cards.nth(3)).toHaveAttribute('href', '#/jinkei')
+  await expect(cards.nth(4)).toHaveAttribute('href', '#/note')
   // 姉妹アプリ（ミニゲーム集）は別のアプリとして開き、どこから来たかの印を付ける
   const sister = page.locator('.sister-card')
   await expect(sister).toHaveAttribute('href', 'https://omicreate.github.io/softtennis-asobi/?src=st_iq_cross')
@@ -212,4 +213,31 @@ test('計測のお知らせ：はじめてだけ出て、閉じると次から�
   await expect(notice).toHaveCount(0)
   await page.reload()
   await expect(page.getByRole('complementary', { name: '計測のお知らせ' })).toHaveCount(0)
+})
+
+test('タイプ診断：12問に答えると結果が出て、相性のペアと共有リンクから開ける', async ({ page }) => {
+  await page.goto('./#/type')
+  await page.getByRole('button', { name: '診断をはじめる' }).click()
+  for (let i = 0; i < 12; i++) {
+    await expect(page.locator('.eyebrow.num')).toHaveText(`Q${i + 1} / 12`)
+    await page.locator('.choices .choice').nth(i % 4).click()
+  }
+  await expect(page.locator('.type-name')).toBeVisible()
+  await expect(page.locator('.type-bar')).toHaveCount(6)
+  await expectNoHorizontalScroll(page)
+  // 前回の結果として残る
+  const last = await page.evaluate(() => localStorage.getItem('stiq-type-v1'))
+  expect(last).toMatch(/^[a-z]+-[a-z]+$/)
+  // 相性のいいペアのタイプ紹介へ
+  await page.locator('.type-match').first().click()
+  await expect(page).toHaveURL(/#\/type\/t\/[a-z]+-[a-z]+$/)
+  await expect(page.locator('.type-name')).toBeVisible()
+  // 共有リンク（?src= 付き）でタイプ紹介が開く
+  await page.goto('./?src=type_share#/type/t/yomi-mae')
+  await expect(page.locator('.type-name')).toHaveText('ポーチの狩人')
+  await expect(page.getByRole('link', { name: '自分のタイプを診断する' })).toBeVisible()
+  // 知らないタイプは診断のはじめに戻る
+  await page.goto('./#/type/t/xxx')
+  await expect(page.getByRole('button', { name: '診断をはじめる' })).toBeVisible()
+  await expectNoHorizontalScroll(page)
 })

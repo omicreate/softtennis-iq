@@ -1,7 +1,8 @@
 # ソフトテニスIQ
 
-**Soft Tennis IQ** — four tools for soft tennis players in one app:
+**Soft Tennis IQ** — five tools for soft tennis players in one app:
 
+- **Type Check** — 12 questions sort your play style into one of 30 types, with the partner type you pair best with (just for fun)
 - **Situation Quiz** — one tactics question a day from our short videos (3 choices), with the right movement animated and explained
 - **Rule Drill** — quizzes on the official rules, each citing the article it is based on
 - **Formation Lab** — place players on a court diagram and share the layout as a link
@@ -15,10 +16,10 @@ Built with React + TypeScript + Vite as a PWA. Unit tests (Vitest) run on every 
 
 ---
 
-ソフトテニスIQ（Instagram・Threads・YouTube @softtennis_iq）のアプリです。局面クイズ・ルールドリル・陣形ラボ・試合ノートの4つの道具を、1つのアプリにまとめています。
+ソフトテニスIQ（Instagram・Threads・YouTube @softtennis_iq）のアプリです。タイプ診断・局面クイズ・ルールドリル・陣形ラボ・試合ノートの5つの道具を、1つのアプリにまとめています。
 
 - 公開URL: https://omicreate.github.io/softtennis-iq/
-- 画面: `#/`（ホーム）・`#/quiz`（局面クイズ。`/archive` 過去の問題・`/record` 記録）・`#/drill`（ルールドリル。`/review` 振り返り・`/record` 記録）・`#/jinkei`（陣形ラボ。`/setup` 陣形・`/save` 保存・共有）
+- 画面: `#/`（ホーム）・`#/type`（タイプ診断。`/t/<タイプ>` タイプ紹介。共有リンクは `?src=type_share#/type/t/<タイプ>`）・`#/quiz`（局面クイズ。`/archive` 過去の問題・`/record` 記録）・`#/drill`（ルールドリル。`/review` 振り返り・`/record` 記録）・`#/jinkei`（陣形ラボ。`/setup` 陣形・`/save` 保存・共有）
 - `#/note`（試合ノート。`/analysis` 分析・`/history` 履歴・`/menu` 試合・`/new` 新しい試合・`/edit`・`/archive` 保存済み試合・`/summary` サマリー画像）
 - 陣形ラボの共有リンクは `?layout=…#/jinkei`。`?layout=` だけで開かれたときも陣形ラボを開く
 

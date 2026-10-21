@@ -69,6 +69,10 @@ a.tool-card {
   font-variant-numeric: tabular-nums;
 }
 
+.nb {
+  display: inline-block; /* 言葉の途中で折り返さない */
+}
+
 .sr-only {
   position: absolute;
   width: 1px;

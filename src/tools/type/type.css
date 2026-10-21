@@ -1,0 +1,154 @@
+/* タイプ診断：選択肢はルールドリル（drill.css）の部品を使う。
+   見せ場は結果の名前だけ（大きな文字と、1回だけの動き）。囲みは線1本で、影や光は使わない。 */
+
+.type-intro {
+  padding-top: var(--s6);
+  gap: var(--s5);
+}
+.type-title {
+  font-size: var(--fs-2xl);
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+}
+.type-lead {
+  color: var(--mute);
+}
+.type-note {
+  font-size: var(--fs-xs);
+  color: var(--mute);
+}
+
+/* 進み具合：細い線1本 */
+.type-progress {
+  height: 4px;
+  background: var(--surface-2);
+  border-radius: var(--r-pill);
+  overflow: hidden;
+  margin-top: var(--s2);
+}
+.type-progress i {
+  display: block;
+  height: 100%;
+  background: var(--ball);
+  transition: width 0.24s var(--ease);
+}
+.type .choice {
+  grid-template-columns: 24px 1fr;
+}
+.type .choice-text {
+  display: grid;
+  gap: 2px;
+}
+.type .choice-text small {
+  font-size: var(--fs-xs);
+  color: var(--mute);
+  font-weight: 500;
+}
+
+/* 結果 */
+.type-result {
+  gap: var(--s5);
+}
+.type-hero {
+  padding: var(--s6) 0 var(--s2);
+  display: grid;
+  gap: var(--s3);
+}
+.type-name {
+  font-size: var(--fs-3xl, 2.441rem);
+  font-weight: 900;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+.type-catch {
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  color: var(--ball);
+}
+.type-aruaru {
+  color: var(--mute);
+}
+.type-reveal {
+  animation: type-reveal 0.6s var(--ease) both;
+}
+@keyframes type-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.type-block {
+  border-top: 1px solid var(--line);
+  padding-top: var(--s4);
+  display: grid;
+  gap: var(--s2);
+}
+.type-block h2 {
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--mute);
+  letter-spacing: 0.04em;
+}
+
+.type-bars {
+  display: grid;
+  gap: var(--s2);
+}
+.type-bar {
+  display: grid;
+  grid-template-columns: 5em minmax(0, 1fr) 2.2em;
+  gap: var(--s3);
+  align-items: center;
+  font-size: var(--fs-sm);
+  color: var(--mute);
+}
+.type-bar-track {
+  height: 8px;
+  background: var(--surface-2);
+  border-radius: var(--r-pill);
+  overflow: hidden;
+}
+.type-bar-track i {
+  display: block;
+  height: 100%;
+  background: var(--faint);
+}
+.type-bar.is-top {
+  color: var(--ink);
+  font-weight: 700;
+}
+.type-bar.is-top .type-bar-track i {
+  background: var(--ball);
+}
+.type-bar .num {
+  text-align: right;
+}
+
+.type-match {
+  display: grid;
+  gap: 2px;
+  color: var(--ink);
+  text-decoration: none;
+  padding: var(--s3) var(--s4);
+  border-radius: var(--r-md);
+  background: var(--surface);
+}
+.type-match b {
+  font-size: var(--fs-lg);
+  font-weight: 900;
+}
+.type-match span {
+  font-size: var(--fs-sm);
+  color: var(--mute);
+}
+
+.type-share {
+  display: grid;
+  gap: var(--s2);
+}
