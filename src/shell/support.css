@@ -22,13 +22,6 @@
   color: var(--mute);
   line-height: 1.7;
 }
-.support .support-adult {
-  font-size: var(--fs-xs);
-  color: var(--faint);
-}
-.support .support-adult a {
-  color: var(--mute);
-}
 .support .support-msg {
   font-size: var(--fs-xs);
   color: var(--ball);

@@ -2,16 +2,14 @@ import { Heart, Share2 } from 'lucide-react'
 import { useState } from 'react'
 import './support.css'
 
-export const NOTE_URL = 'https://note.com/softtennis_iq'
-
 /** 共有するリンク：アプリのトップに、共有から来たことが分かる印を付ける */
 export function shareUrl() {
   return `${location.origin}${location.pathname}?src=share`
 }
 
 /**
- * 応援の入口。いちばんの応援は「仲間に教えてもらうこと」なので共有を先に、
- * お金での応援（note のチップ）は大人向けに控えめに置く。
+ * 応援の入口。いちばんの応援は「仲間に教えてもらうこと」なので共有だけを置く。
+ * お金での応援（note のチップなど）は、IG 1万人で呼びかけを始めるまで出さない。
  */
 export function Support({ compact = false }: { compact?: boolean }) {
   const [msg, setMsg] = useState('')
@@ -53,13 +51,6 @@ export function Support({ compact = false }: { compact?: boolean }) {
           {msg}
         </p>
       )}
-      <p className="support-adult">
-        大人の方へ：
-        <a href={NOTE_URL} target="_blank" rel="noopener">
-          note のチップ
-        </a>
-        で開発を応援できます。
-      </p>
     </section>
   )
 }
