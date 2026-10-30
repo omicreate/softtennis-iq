@@ -17,7 +17,8 @@ export default function App() {
   return (
     <>
       <Page route={route} />
-      <PrivacyNotice hidden={route[0] === 'privacy'} />
+      {/* タイプ診断は下のタブがなく、浮かせたお知らせがボタンに重なるので、画面の中に置く（Type.tsx） */}
+      <PrivacyNotice hidden={route[0] === 'privacy' || route[0] === 'type'} />
     </>
   )
 }

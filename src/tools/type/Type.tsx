@@ -1,5 +1,6 @@
 import { ChevronLeft, RotateCcw, Share2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { PrivacyNotice } from '../../shell/PrivacyNotice'
 import { href } from '../../shell/route'
 import { Support } from '../../shell/Support'
 import { countEvent } from '../../shell/track'
@@ -39,6 +40,7 @@ export function Type({ view }: { view?: string }) {
           タイプ診断
         </div>
       </header>
+      <PrivacyNotice inline />
       {shown ? <TypeView k={shown} /> : <Diagnosis />}
     </div>
   )
@@ -61,7 +63,13 @@ function Diagnosis() {
     }
   }, [result])
 
-  if (result) return <Result r={result} onRetry={() => (setResult(null), setPicks([]))} />
+  // はじめた回数は、やり直しも含めて毎回数える（開いた回数は同じタブで1回なので、完了と比べられるように）
+  const start = () => {
+    countEvent('softtennis-type', 'start')
+    setPicks([])
+  }
+
+  if (result) return <Result r={result} onRetry={() => (setResult(null), start())} />
 
   if (picks === null) {
     return (
@@ -74,7 +82,7 @@ function Diagnosis() {
           <span className="nb">どれ？</span>
         </h1>
         <p className="type-lead">12問・1分。攻め・ねばり・読み・前へ・ペア力・こだわりの6つから、あなたのタイプと相性のいいペアが分かります。</p>
-        <button type="button" className="btn btn-accent btn-block" onClick={() => setPicks([])}>
+        <button type="button" className="btn btn-accent btn-block" onClick={start}>
           診断をはじめる
         </button>
         {last && (
