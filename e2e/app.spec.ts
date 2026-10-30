@@ -12,6 +12,8 @@ test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
     if (!location.hash.includes('notice-test')) localStorage.setItem('stiq-privacy-seen', '1')
   })
+  // 本番と同じ作り（vite preview）なので、テストの操作が本番の回数に入らないよう、受け口への送信は止める
+  await page.route('https://script.google.com/**', (route) => route.abort())
   // 書体は同梱。Google Fonts を読みに行っていないことも確かめる
   page.on('request', (req) => {
     expect(req.url()).not.toContain('fonts.googleapis.com')
@@ -240,4 +242,53 @@ test('タイプ診断：12問に答えると結果が出て、相性のペアと
   await page.goto('./#/type/t/xxx')
   await expect(page.getByRole('button', { name: '診断をはじめる' })).toBeVisible()
   await expectNoHorizontalScroll(page)
+})
+
+test('タイプ診断：計測のお知らせは画面の中に出て、ボタンに重ならない', async ({ page }) => {
+  // このテストだけ、はじめての人と同じ（お知らせが出る）状態にする
+  // （beforeEach が開くたびに「見た」印を付けるので、そのあとで消す）
+  await page.addInitScript(() => localStorage.removeItem('stiq-privacy-seen'))
+  const overlaps = async (a: string, b: string) => {
+    const [x, y] = [await page.locator(a).boundingBox(), await page.locator(b).boundingBox()]
+    if (!x || !y) throw new Error('見つからない')
+    return x.y < y.y + y.height && y.y < x.y + x.height && x.x < y.x + y.width && y.x < x.x + x.width
+  }
+  // 共有リンクから来た人の入口
+  await page.goto('./?src=type_share#/type/t/yomi-mae')
+  const notice = page.getByRole('complementary', { name: '計測のお知らせ' })
+  await expect(notice).toBeVisible()
+  await expect(notice).toHaveCSS('position', 'static')
+  expect(await overlaps('.privacy-notice', 'a.btn-accent')).toBe(false)
+  // 結果画面
+  await page.goto('./#/type')
+  await page.getByRole('button', { name: '診断をはじめる' }).click()
+  for (let i = 0; i < 12; i++) await page.locator('.choices .choice').nth(i % 4).click()
+  await expect(page.locator('.type-name')).toBeVisible()
+  await expect(notice).toHaveCSS('position', 'static')
+  for (const sel of ['.type-share .btn', '.type-result .btn-quiet']) expect(await overlaps('.privacy-notice', sel)).toBe(false)
+  await expectNoHorizontalScroll(page)
+  // 閉じたら消え、「見た」印が残る（ほかの画面でも出なくなる）
+  await notice.getByRole('button', { name: 'お知らせを閉じる' }).click()
+  await expect(notice).toHaveCount(0)
+  expect(await page.evaluate(() => localStorage.getItem('stiq-privacy-seen'))).toBe('1')
+})
+
+test('タイプ診断：「はじめた」は、やり直しも含めて毎回数える（送るのは app・ev・v だけ）', async ({ page }) => {
+  const sent: string[] = []
+  await page.route('https://script.google.com/**', (route) => {
+    sent.push(route.request().url())
+    return route.abort()
+  })
+  await page.goto('./#/type')
+  for (let round = 0; round < 2; round++) {
+    if (round === 0) await page.getByRole('button', { name: '診断をはじめる' }).click()
+    else await page.getByRole('button', { name: 'もう一度診断する' }).click()
+    for (let i = 0; i < 12; i++) await page.locator('.choices .choice').nth(i % 4).click()
+    await expect(page.locator('.type-name')).toBeVisible()
+  }
+  await expect.poll(() => sent.filter((u) => u.includes('ev=finish')).length).toBe(2)
+  const starts = sent.filter((u) => u.includes('ev=start'))
+  expect(starts).toHaveLength(2)
+  expect(sent.filter((u) => u.includes('ev=open'))).toHaveLength(1)
+  for (const u of starts) expect([...new URL(u).searchParams.keys()].sort()).toEqual(['app', 'ev', 'v'])
 })

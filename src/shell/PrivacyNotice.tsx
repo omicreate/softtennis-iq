@@ -13,10 +13,14 @@ function seen(): boolean {
   }
 }
 
-/** はじめて開いたときだけ、計測していることを一行で知らせる。閉じるか、説明を開いたら次からは出さない */
-export function PrivacyNotice({ hidden }: { hidden?: boolean }) {
+/**
+ * はじめて開いたときだけ、計測していることを一行で知らせる。閉じるか、説明を開いたら次からは出さない。
+ * inline は画面の中に置く形（下のタブがない画面用。浮かせるとボタンに重なるため）
+ */
+export function PrivacyNotice({ hidden, inline }: { hidden?: boolean; inline?: boolean }) {
   const [open, setOpen] = useState(() => !seen())
-  if (!open || hidden) return null
+  // 別の場所で閉じた後にも出ないよう、毎回保存を確かめる
+  if (!open || hidden || seen()) return null
   const close = () => {
     try {
       localStorage.setItem(KEY, '1')
@@ -26,7 +30,7 @@ export function PrivacyNotice({ hidden }: { hidden?: boolean }) {
     setOpen(false)
   }
   return (
-    <aside className="privacy-notice" aria-label="計測のお知らせ">
+    <aside className={`privacy-notice${inline ? ' is-inline' : ''}`} aria-label="計測のお知らせ">
       <p>
         このアプリは、リンクから開いた回数と、診断を使った回数だけを数えています。
         <a href={href('privacy')} onClick={close}>
